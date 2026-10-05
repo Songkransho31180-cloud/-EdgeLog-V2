@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080d12">
-<title>EdgeLog V8</title>
+<title>EdgeLog V8.1</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -49,7 +49,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="brand">Edge<b>Log</b> V8</div><div class="top-actions"><button class="btn" id="cloudBtn">☁ Cloud</button><button class="primary" id="newTradeBtn">+ New Trade</button></div></header>
+<header class="top"><div class="brand">Edge<b>Log</b> V8.1</div><div class="top-actions"><button class="btn" id="cloudBtn">☁ Cloud</button><button class="primary" id="newTradeBtn">+ New Trade</button></div></header>
 <div class="layout">
 <aside class="side">
   <nav class="nav">
@@ -66,7 +66,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <button data-page="journal">Journal</button>
     <button data-page="settings">Settings</button>
   </nav>
-  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V8 ใช้ Local ได้ทันที และต่อ Supabase ได้ภายหลัง</div></div>
+  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V8.1 ใช้ Local ได้ทันที และต่อ Supabase ได้ภายหลัง</div></div>
 </aside>
 <main>
 
@@ -346,7 +346,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 <script>
 const K8="edgelog_v8_state",K7="edgelog_v7_state",K6="edgelog_v6_state",K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v8_cloud";
 const TAGS=["FVG","OB","Liquidity","Sweep","BOS","CHOCH","MSS","Breaker","OTE","SMT","PD Array","Killzone"];
-let selectedTags=new Set(), editImages={before:"",after:""}, currentMonth=new Date(), currentPeriod="all", sb=null, sessionUser=null;
+let selectedTags=new Set(), editImages={before:"",after:""}, currentMonth=new Date(), currentPeriod="all", sb=null, sessionUser=null, currentDetailTradeId=null;
 const RULEKEY="edgelog_v6_rules";
 const LESSONKEY="edgelog_v8_lessons";
 const PLAYBOOKKEY="edgelog_v8_playbook";
@@ -407,7 +407,7 @@ function renderDashboard(){
   const r=[...s.ts].reverse().slice(0,5);recentTrades.innerHTML=r.length?r.map(t=>tradeRow(t,true)).join(""):`<div class="empty">ยังไม่มี Trade</div>`
 }
 function tradeRow(t,compact=false){
-  return `<div class="trade"><div><div class="sym">${esc(t.symbol)} <span class="tag">${esc(t.side)}</span></div><div class="small muted">${esc(t.date)} · ${esc(t.setup||t.session||"")}</div></div><div class="hide-sm small">${(t.tags||[]).slice(0,2).map(x=>`<span class="tag">${esc(x)}</span>`).join(" ")}</div><div class="hide-sm small muted">${t.r!==""&&t.r!=null?Number(t.r).toFixed(2)+"R":"—"}</div><div class="${Number(t.pnl)>=0?"pos":"neg"}">${Number(t.pnl)>=0?"+":""}${money(t.pnl)}</div>${compact?"":`<div class="row"><button class="btn" onclick="viewTrade('${t.id}')">View</button><button class="btn" onclick="editTrade('${t.id}')">✎</button><button class="btn" onclick="deleteTrade('${t.id}')">⌫</button></div>`}</div>`
+  return `<div class="trade"><div><div class="sym">${esc(t.symbol)} <span class="tag">${esc(t.side)}</span></div><div class="small muted">${esc(t.date)} · ${esc(t.setup||t.session||"")}</div></div><div class="hide-sm small">${(t.tags||[]).slice(0,2).map(x=>`<span class="tag">${esc(x)}</span>`).join(" ")}</div><div class="hide-sm small muted">${t.r!==""&&t.r!=null?Number(t.r).toFixed(2)+"R":"—"}</div><div class="${Number(t.pnl)>=0?"pos":"neg"}">${Number(t.pnl)>=0?"+":""}${money(t.pnl)}</div>${compact?"":`<div class="row"><button class="btn" onclick="viewTrade('${t.id}')">View</button><button class="btn" onclick="editTrade('${t.id}')">Edit</button><button class="danger" onclick="deleteTrade('${t.id}')">Delete</button></div>`}</div>`
 }
 function setupCanvas(c,h=230){const d=window.devicePixelRatio||1,r=c.getBoundingClientRect();c.width=Math.max(1,r.width*d);c.height=h*d;const x=c.getContext("2d");x.scale(d,d);return {x,w:r.width,h}}
 function drawLine(c,arr){const {x,w,h}=setupCanvas(c);x.clearRect(0,0,w,h);x.strokeStyle="#22303e";for(let i=1;i<5;i++){let y=h*i/5;x.beginPath();x.moveTo(0,y);x.lineTo(w,y);x.stroke()}if(arr.length<2)return;let mn=Math.min(...arr),mx=Math.max(...arr),sp=Math.max(1,mx-mn);x.strokeStyle="#c6ff36";x.lineWidth=3;x.beginPath();arr.forEach((v,i)=>{let px=i/(arr.length-1)*w,py=h-18-(v-mn)/sp*(h-36);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()}
@@ -670,10 +670,46 @@ function tradeDetailHtml(t){
   <div class="detail-box" style="margin-top:12px"><div class="label">Note</div><div style="margin-top:7px">${esc(t.note||"—")}</div></div>
   ${imgs}`;
 }
-window.viewTrade=id=>{const t=state.trades.find(x=>x.id===id);if(!t)return;detailBody.innerHTML=tradeDetailHtml(t);detailModal.classList.add("open")};
-closeDetail.onclick=()=>detailModal.classList.remove("open");
+window.viewTrade=id=>{
+  const t=state.trades.find(x=>x.id===id);
+  if(!t)return;
+  currentDetailTradeId=id;
+  detailBody.innerHTML=tradeDetailHtml(t);
+  detailModal.classList.add("open")
+};
+closeDetail.onclick=()=>{
+  detailModal.classList.remove("open");
+  currentDetailTradeId=null
+};
 
-window.editTrade=id=>openTrade(state.trades.find(t=>t.id===id));window.deleteTrade=id=>{if(confirm("ลบ Trade นี้?")){state.trades=state.trades.filter(t=>t.id!==id);persist()}};
+window.editTrade=id=>{
+  const t=state.trades.find(t=>t.id===id);
+  if(!t)return;
+  detailModal.classList.remove("open");
+  currentDetailTradeId=null;
+  openTrade(t)
+};
+
+function removeTrade(id){
+  const t=state.trades.find(x=>x.id===id);
+  if(!t)return;
+  const info=`${t.symbol||"Trade"} · ${t.date||""} · ${money(t.pnl||0)}`;
+  if(!confirm(`ลบออเดอร์นี้ถาวร?\n${info}\n\nข้อมูลที่ลบจะไม่สามารถย้อนกลับได้ หากยังไม่ได้ Export backup`))return;
+  state.trades=state.trades.filter(x=>x.id!==id);
+  if(currentDetailTradeId===id){
+    detailModal.classList.remove("open");
+    currentDetailTradeId=null
+  }
+  persist()
+}
+window.deleteTrade=removeTrade;
+
+detailEditBtn.onclick=()=>{
+  if(currentDetailTradeId)window.editTrade(currentDetailTradeId)
+};
+detailDeleteBtn.onclick=()=>{
+  if(currentDetailTradeId)removeTrade(currentDetailTradeId)
+};
 
 exportBtn.onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v4-backup.json";a.click();URL.revokeObjectURL(a.href)};
 
@@ -705,6 +741,10 @@ calcRisk();calcRR();initSupabase();renderAll();
 <div class="modal" id="detailModal"><div class="sheet">
   <div class="sheethead"><h2>Trade Detail</h2><button class="btn" id="closeDetail">✕</button></div>
   <div id="detailBody"></div>
+  <div class="row" style="margin-top:14px">
+    <button class="btn" id="detailEditBtn">Edit Trade</button>
+    <button class="danger" id="detailDeleteBtn">Delete Trade</button>
+  </div>
 </div></div>
 
 </body>

@@ -1,20 +1,11 @@
-# EdgeLog V8
+# EdgeLog V8.1
 
-V8 ต่อจาก V7 และย้ายข้อมูล V7/V6/V5/V4/V3 เดิมให้อัตโนมัติ
+แก้ระบบลบ Trade/Order ให้ชัดเจนขึ้น
 
-## เพิ่มใหม่
-- Insight Lab
-- Day × Session Heatmap
-- Time-of-day Analytics
-- Tag Combination Analytics
-- Process Goals รายเดือน
-- Process Goal Score บน Dashboard
-- Drawdown Recovery summary
-- Data Health indicator
-- Trade Detail modal
-- ใช้ข้อมูลเวอร์ชันก่อนต่อได้
+- Trade History: ปุ่ม Delete สีแดง
+- Trade Detail: ปุ่ม Delete Trade
+- ยืนยันก่อนลบทุกครั้ง
+- ลบแล้ว Dashboard, Calendar, Analytics และ History อัปเดตทันที
+- ใช้ข้อมูล V8 เดิมต่อได้
 
-## อัปเดต GitHub
-อัปโหลด `index.html` ไปแทนไฟล์เดิมใน root ของ repo แล้ว Commit to main
-
-> Process Goals เน้นความสม่ำเสมอของกระบวนการ ไม่ใช่การตั้งเป้ากำไรหรือเพิ่มความเสี่ยง
+อัปโหลด `index.html` ไปแทนไฟล์เดิมใน GitHub แล้ว Commit to main
