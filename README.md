@@ -1,31 +1,29 @@
-# EdgeLog V3
+# EdgeLog V4
 
-Trading journal แบบไฟล์เดียวสำหรับ GitHub Pages
+ไฟล์เดียวสำหรับ GitHub Pages และย้ายข้อมูล V3 เดิมให้อัตโนมัติ
 
-## ใช้งานทันที
-- อัปโหลด `index.html` ไปที่ root ของ GitHub repo
-- Settings → Pages → Deploy from a branch → `main` → `/(root)`
-- เปิดเว็บได้ทันทีใน Local mode
+## เพิ่มใน V4
+- Dashboard 7D / 30D / 90D / All
+- Balance, Net P&L, Win Rate, Profit Factor, Avg R, Max Drawdown
+- Equity Curve + Daily P&L
+- Weekly Summary
+- ICT/SMC analytics แยก Setup / Session / Direction / Tags
+- Risk Calculator
+- RR Calculator
+- Trade History / Calendar / Journal
+- Before / After screenshots
+- Multi-portfolio
+- JSON backup
+- Optional Supabase Auth + Cloud Sync
 
-## ฟีเจอร์
-- หลาย Portfolio
-- Dashboard / Equity Curve / Win rate / Max drawdown
-- Trade History + ค้นหา/กรอง
-- Calendar
-- Analytics by setup/tag/session
-- Journal
-- แนบรูป Before / After (ย่อรูปก่อนเก็บ)
-- Export / Import JSON
-- Optional Supabase Login + Cloud sync
+## อัปเดต GitHub Pages
+อัปโหลด `index.html` ไปแทนไฟล์เดิมใน root ของ repo แล้ว Commit to main
 
-## เปิด Cloud Sync (Supabase)
+## เปิด Supabase
 1. สร้าง Supabase project
-2. เปิด SQL Editor แล้วรันไฟล์ `supabase-schema.sql`
-3. ในเว็บ EdgeLog → Settings
-4. ใส่ Project URL + Anon Key
-5. Create account / Sign in
-6. กด `Sync`
-   - OK = อัปโหลด Local → Cloud
-   - Cancel = ดาวน์โหลด Cloud → Local
+2. รัน `supabase-schema.sql` ใน SQL Editor
+3. ใน EdgeLog > Settings ใส่ Project URL และ Anon Key
+4. Create account / Sign in
+5. Push หรือ Pull ข้อมูล Cloud
 
-> หมายเหตุ: หากยังไม่ต่อ Supabase ข้อมูลจะอยู่ใน localStorage ของ browser/device นี้
+> Risk Calculator เป็นค่าประมาณ ควรตรวจ contract size/specification ของ symbol กับโบรกเกอร์ก่อนใช้
