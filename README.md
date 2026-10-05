@@ -1,11 +1,15 @@
-# EdgeLog V8.1
+# EdgeLog V8.2 — Hotfix
 
-แก้ระบบลบ Trade/Order ให้ชัดเจนขึ้น
+แก้บั๊กบน Safari/iPhone ที่ทำให้ปุ่ม Edit Trade / Delete Trade ใน Trade Detail กดไม่ได้
 
-- Trade History: ปุ่ม Delete สีแดง
-- Trade Detail: ปุ่ม Delete Trade
-- ยืนยันก่อนลบทุกครั้ง
-- ลบแล้ว Dashboard, Calendar, Analytics และ History อัปเดตทันที
-- ใช้ข้อมูล V8 เดิมต่อได้
+## แก้แล้ว
+- Edit Trade ในหน้า Detail กดได้
+- Delete Trade ในหน้า Detail กดได้
+- Delete ใน Trade History กดได้
+- ปุ่มปิด Detail กดได้
+- ไม่พึ่งการ bind element ก่อน DOM โหลด
+- ลบแล้ว Dashboard / History / Calendar / Analytics อัปเดตทันที
+- ข้อมูล V8 เดิมยังอยู่เหมือนเดิม
 
-อัปโหลด `index.html` ไปแทนไฟล์เดิมใน GitHub แล้ว Commit to main
+## อัปเดต
+อัปโหลด `index.html` ไฟล์นี้ทับไฟล์เดิมใน GitHub แล้ว Commit directly to main
