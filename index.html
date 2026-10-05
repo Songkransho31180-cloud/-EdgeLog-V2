@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080d12">
-<title>EdgeLog V7</title>
+<title>EdgeLog V8</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -37,19 +37,19 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.dow{text-align:center;color:var(--muted);font-size:10px;padding:5px}.day{min-height:72px;border:1px solid var(--line);border-radius:11px;padding:7px;background:#091018}.day.blank{opacity:.25}.day .n{font-size:11px;color:var(--muted)}.day .p{font-size:11px;font-weight:900;margin-top:8px}
 .metric-list{display:grid;gap:8px}.metric-row{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:13px;background:#091018}.metric-row b{font-size:13px}.pill{font-size:10px;padding:5px 7px;border-radius:999px;background:#172230;color:#b8c6d7}
 .tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}.resultbox{margin-top:12px;padding:14px;border-radius:15px;background:#091018;border:1px solid var(--line)}.resultbox strong{font-size:24px;display:block;margin-top:3px}
-.hr{height:1px;background:var(--line);margin:17px 0}.backup{display:flex;gap:8px;flex-wrap:wrap}.mobilebar{display:none}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.gallery-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}.gallery-card img{width:100%;height:180px;object-fit:cover;display:block}.gallery-meta{padding:12px}.gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#000}.gallery-pair img{height:150px}.lesson{padding:11px 0;border-bottom:1px solid var(--line)}.lesson:last-child{border-bottom:0}.playbook-card{padding:14px;border:1px solid var(--line);border-radius:16px;background:#091018;margin-bottom:10px}.playbook-card h3{margin:0 0 6px;font-size:16px}.stars{color:var(--amber)}
+.hr{height:1px;background:var(--line);margin:17px 0}.backup{display:flex;gap:8px;flex-wrap:wrap}.mobilebar{display:none}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.gallery-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}.gallery-card img{width:100%;height:180px;object-fit:cover;display:block}.gallery-meta{padding:12px}.gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#000}.gallery-pair img{height:150px}.lesson{padding:11px 0;border-bottom:1px solid var(--line)}.lesson:last-child{border-bottom:0}.playbook-card{padding:14px;border:1px solid var(--line);border-radius:16px;background:#091018;margin-bottom:10px}.playbook-card h3{margin:0 0 6px;font-size:16px}.stars{color:var(--amber)}.heatmap{display:grid;grid-template-columns:90px repeat(4,1fr);gap:6px;align-items:stretch}.heat-head,.heat-label{font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:center;min-height:38px}.heat-cell{border:1px solid var(--line);border-radius:11px;padding:8px;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.heat-cell.posh{background:rgba(73,227,157,.12)}.heat-cell.negh{background:rgba(255,110,124,.12)}.healthbar{height:10px;background:#17212c;border-radius:999px;overflow:hidden;margin-top:7px}.healthbar>span{display:block;height:100%;background:var(--lime)}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.detail-box{border:1px solid var(--line);border-radius:14px;padding:12px;background:#091018}.detail-img{width:100%;max-height:280px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
 @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:900px){
  .layout{display:block}.side{display:none}main{padding:19px 13px}.cards{grid-template-columns:repeat(2,1fr)}.grid2,.grid3,.tools{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar .wide{grid-column:1/-1}.trade{grid-template-columns:1fr auto auto}.trade .hide-sm{display:none}
  .mobilebar{display:grid;grid-template-columns:repeat(7,1fr);position:fixed;left:0;right:0;bottom:0;z-index:50;background:#080d12;border-top:1px solid var(--line);padding:7px 2px max(7px,env(safe-area-inset-bottom))}
  .mobilebar button{border:0;background:transparent;color:var(--muted);font-size:10px;padding:8px 1px}.mobilebar button.active{color:var(--lime);font-weight:900}
 }
-@media(max-width:560px){.gallery-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.span2{grid-column:auto}.hero{align-items:start;flex-direction:column}.value{font-size:30px}.calendar{gap:3px}.day{min-height:58px;padding:5px}.metric-row{grid-template-columns:1fr auto}}
+@media(max-width:560px){.heatmap{grid-template-columns:72px repeat(4,1fr);font-size:10px}.detail-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.span2{grid-column:auto}.hero{align-items:start;flex-direction:column}.value{font-size:30px}.calendar{gap:3px}.day{min-height:58px;padding:5px}.metric-row{grid-template-columns:1fr auto}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="brand">Edge<b>Log</b> V7</div><div class="top-actions"><button class="btn" id="cloudBtn">☁ Cloud</button><button class="primary" id="newTradeBtn">+ New Trade</button></div></header>
+<header class="top"><div class="brand">Edge<b>Log</b> V8</div><div class="top-actions"><button class="btn" id="cloudBtn">☁ Cloud</button><button class="primary" id="newTradeBtn">+ New Trade</button></div></header>
 <div class="layout">
 <aside class="side">
   <nav class="nav">
@@ -61,11 +61,12 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <button data-page="rules">Rules & Discipline</button>
     <button data-page="review">Review Center</button>
     <button data-page="playbook">Setup Playbook</button>
+    <button data-page="insights">Insight Lab</button>
     <button data-page="gallery">Screenshot Gallery</button>
     <button data-page="journal">Journal</button>
     <button data-page="settings">Settings</button>
   </nav>
-  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V7 ใช้ Local ได้ทันที และต่อ Supabase ได้ภายหลัง</div></div>
+  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V8 ใช้ Local ได้ทันที และต่อ Supabase ได้ภายหลัง</div></div>
 </aside>
 <main>
 
@@ -83,12 +84,19 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <div class="card"><div class="label">Discipline Score</div><div class="value" id="disciplineV">100</div><div class="sub">Checklist + rules</div></div>
     <div class="card"><div class="label">Consistency</div><div class="value" id="consistencyV">100</div><div class="sub">rule-following score</div></div>
     <div class="card"><div class="label">A+ Setup Rate</div><div class="value" id="aPlusV">0%</div><div class="sub">Grade A trades</div></div>
+    <div class="card"><div class="label">Process Goal</div><div class="value" id="processGoalV">0%</div><div class="sub" id="processGoalS">this month</div></div>
   </div>
   <div class="grid2">
     <div class="card"><div class="section-title"><h2>Equity Curve</h2><span class="tag" id="periodTag">All time</span></div><canvas id="equityCanvas"></canvas></div>
     <div class="card"><div class="section-title"><h2>Daily P&L</h2><span class="tag">selected period</span></div><canvas id="dailyCanvas"></canvas></div>
   </div>
 
+
+
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h2>Drawdown Recovery</h2></div><div id="drawdownRecovery"></div></div>
+    <div class="card"><div class="section-title"><h2>Process Goals</h2></div><div id="processGoalsMini"></div></div>
+  </div>
 
   <div class="grid3">
     <div class="card"><div class="section-title"><h2>Best Trade</h2></div><div id="bestTradeCard"></div></div>
@@ -217,6 +225,29 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </section>
 
 
+
+<section class="page" id="page-insights">
+  <div class="hero"><div><div class="eyebrow">INSIGHT LAB</div><h1>Behavior Analytics</h1><p>ดูช่วงเวลา Session และรูปแบบ Confluence ที่ให้ผลลัพธ์ดีที่สุดจากข้อมูลจริงของคุณ</p></div></div>
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h2>Day × Session Heatmap</h2></div><div class="heatmap" id="sessionHeatmap"></div></div>
+    <div class="card"><div class="section-title"><h2>Time of Day</h2></div><div class="metric-list" id="timeStats"></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h2>Tag Combinations</h2></div><div class="metric-list" id="comboStats"></div></div>
+    <div class="card"><div class="section-title"><h2>Data Health</h2></div><div id="dataHealth"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="section-title"><h2>Process Goal Setup</h2></div>
+    <div class="formgrid">
+      <div class="field"><label>Monthly Grade A target (%)</label><input class="input" id="goalGradeA" type="number" min="0" max="100" step="1" value="80"></div>
+      <div class="field"><label>Minimum checklist average (%)</label><input class="input" id="goalChecklist" type="number" min="0" max="100" step="1" value="85"></div>
+      <div class="field"><label>Maximum violations / month</label><input class="input" id="goalViolations" type="number" min="0" step="1" value="3"></div>
+      <div class="field"><label>Maximum mistake-tag rate (%)</label><input class="input" id="goalMistakes" type="number" min="0" max="100" step="1" value="20"></div>
+    </div>
+    <button class="primary" id="saveGoalsBtn" style="margin-top:10px">Save Process Goals</button>
+  </div>
+</section>
+
 <section class="page" id="page-playbook">
   <div class="hero"><div><div class="eyebrow">SYSTEM</div><h1>Setup Playbook</h1><p>เก็บรูปแบบ Setup ที่อนุญาตให้ตัวเองเทรด และนิยามเงื่อนไขให้ชัด</p></div></div>
   <div class="grid2">
@@ -276,7 +307,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </div>
 
 <nav class="mobilebar">
-  <button class="active" data-page="dashboard">Home</button><button data-page="history">Trades</button><button data-page="analytics">Stats</button><button data-page="review">Review</button><button data-page="playbook">Playbook</button><button data-page="journal">Journal</button><button data-page="settings">Settings</button>
+  <button class="active" data-page="dashboard">Home</button><button data-page="history">Trades</button><button data-page="analytics">Stats</button><button data-page="insights">Insights</button><button data-page="playbook">Playbook</button><button data-page="journal">Journal</button><button data-page="settings">Settings</button>
 </nav>
 </div>
 
@@ -313,12 +344,13 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </div></div>
 
 <script>
-const K7="edgelog_v7_state",K6="edgelog_v6_state",K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v7_cloud";
+const K8="edgelog_v8_state",K7="edgelog_v7_state",K6="edgelog_v6_state",K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v8_cloud";
 const TAGS=["FVG","OB","Liquidity","Sweep","BOS","CHOCH","MSS","Breaker","OTE","SMT","PD Array","Killzone"];
 let selectedTags=new Set(), editImages={before:"",after:""}, currentMonth=new Date(), currentPeriod="all", sb=null, sessionUser=null;
 const RULEKEY="edgelog_v6_rules";
-const LESSONKEY="edgelog_v7_lessons";
-const PLAYBOOKKEY="edgelog_v7_playbook";
+const LESSONKEY="edgelog_v8_lessons";
+const PLAYBOOKKEY="edgelog_v8_playbook";
+const GOALKEY="edgelog_v8_process_goals";
 const MISTAKES=["FOMO","Revenge","Overtrade","Early Entry","Late Entry","Moved SL","No Confirmation","Against Bias","Oversized Risk","News Trade"];
 let selectedMistakes=new Set();
 const CHECKS=["HTF bias ชัดเจน","มี Liquidity target","มี Entry model ที่กำหนดไว้","RR ผ่านเกณฑ์","ไม่ไล่ราคา / ไม่ FOMO","ไม่มีข่าวแรงใกล้เกินไป"];
@@ -326,15 +358,16 @@ const CHECKS=["HTF bias ชัดเจน","มี Liquidity target","มี En
 const $=id=>document.getElementById(id);
 const def=()=>({portfolios:[{id:crypto.randomUUID(),name:"Main Portfolio",capital:1000}],activePortfolioId:null,trades:[],journals:{}});
 function load(){
-  try{let a=JSON.parse(localStorage.getItem(K7));if(a?.portfolios)return a}catch{}
-  try{let b=JSON.parse(localStorage.getItem(K6));if(b?.portfolios){localStorage.setItem(K7,JSON.stringify(b));return b}}catch{}
-  try{let c=JSON.parse(localStorage.getItem(K5));if(c?.portfolios){localStorage.setItem(K7,JSON.stringify(c));return c}}catch{}
-  try{let d=JSON.parse(localStorage.getItem(K4));if(d?.portfolios){localStorage.setItem(K7,JSON.stringify(d));return d}}catch{}
-  try{let e=JSON.parse(localStorage.getItem(K3));if(e?.portfolios){localStorage.setItem(K7,JSON.stringify(e));return e}}catch{}
+  try{let a=JSON.parse(localStorage.getItem(K8));if(a?.portfolios)return a}catch{}
+  try{let b=JSON.parse(localStorage.getItem(K7));if(b?.portfolios){localStorage.setItem(K8,JSON.stringify(b));return b}}catch{}
+  try{let c=JSON.parse(localStorage.getItem(K6));if(c?.portfolios){localStorage.setItem(K8,JSON.stringify(c));return c}}catch{}
+  try{let d=JSON.parse(localStorage.getItem(K5));if(d?.portfolios){localStorage.setItem(K8,JSON.stringify(d));return d}}catch{}
+  try{let e=JSON.parse(localStorage.getItem(K4));if(e?.portfolios){localStorage.setItem(K8,JSON.stringify(e));return e}}catch{}
+  try{let f=JSON.parse(localStorage.getItem(K3));if(f?.portfolios){localStorage.setItem(K8,JSON.stringify(f));return f}}catch{}
   return def()
 }
 let state=load();if(!state.activePortfolioId)state.activePortfolioId=state.portfolios[0]?.id||null;
-function persist(){localStorage.setItem(K7,JSON.stringify(state));renderAll()}
+function persist(){localStorage.setItem(K8,JSON.stringify(state));renderAll()}
 function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function money(n){return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number(n||0))}
 function pct(n){return (Number(n||0)*100).toFixed(1)+"%"}
@@ -354,27 +387,27 @@ function stats(ts=filteredTrades()){
 function showPage(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+name));
   document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
-  if(name==="calendar")renderCalendar();if(name==="analytics")renderAnalytics();if(name==="review")renderReview();if(name==="playbook")renderPlaybook();if(name==="gallery")renderGallery();if(name==="settings")renderSettings();window.scrollTo({top:0,behavior:"smooth"})
+  if(name==="calendar")renderCalendar();if(name==="analytics")renderAnalytics();if(name==="review")renderReview();if(name==="insights")renderInsights();if(name==="playbook")renderPlaybook();if(name==="gallery")renderGallery();if(name==="settings")renderSettings();window.scrollTo({top:0,behavior:"smooth"})
 }
 document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>showPage(b.dataset.goto));
 
 function renderPortfolio(){
   portfolioSelect.innerHTML=state.portfolios.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");portfolioSelect.value=state.activePortfolioId||"";
-  portfolioSelect.onchange=()=>{state.activePortfolioId=portfolioSelect.value;localStorage.setItem(K7,JSON.stringify(state));renderAll()}
+  portfolioSelect.onchange=()=>{state.activePortfolioId=portfolioSelect.value;localStorage.setItem(K8,JSON.stringify(state));renderAll()}
 }
 document.querySelectorAll("[data-period]").forEach(b=>b.onclick=()=>{currentPeriod=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.classList.toggle("active",x===b));renderDashboard()});
 
 function renderDashboard(){
   const s=stats();balanceV.textContent=money(s.eq);balanceS.textContent="Starting "+money(s.cap);
   pnlV.textContent=(s.pnl>=0?"+":"")+money(s.pnl);pnlV.className="value "+(s.pnl>=0?"green":"red");pnlS.textContent=s.total+" trades";
-  winV.textContent=pct(s.wr);winS.textContent=`${s.w} wins / ${s.l} losses`;pfV.textContent=s.pf===Infinity?"∞":s.pf.toFixed(2);avgRV.textContent=s.avgR.toFixed(2)+"R";ddV.textContent="-"+pct(s.maxdd);expectancyV.textContent=(s.expectancy>=0?"+":"")+money(s.expectancy);expectancyV.className="value "+(s.expectancy>=0?"green":"red");disciplineV.textContent=Math.round(s.discipline);disciplineV.className="value "+(s.discipline>=85?"green":s.discipline>=70?"blue":"red");consistencyV.textContent=Math.round(s.consistency);consistencyV.className="value "+(s.consistency>=85?"green":s.consistency>=70?"blue":"red");aPlusV.textContent=pct(s.aPlus);
+  winV.textContent=pct(s.wr);winS.textContent=`${s.w} wins / ${s.l} losses`;pfV.textContent=s.pf===Infinity?"∞":s.pf.toFixed(2);avgRV.textContent=s.avgR.toFixed(2)+"R";ddV.textContent="-"+pct(s.maxdd);expectancyV.textContent=(s.expectancy>=0?"+":"")+money(s.expectancy);expectancyV.className="value "+(s.expectancy>=0?"green":"red");disciplineV.textContent=Math.round(s.discipline);disciplineV.className="value "+(s.discipline>=85?"green":s.discipline>=70?"blue":"red");consistencyV.textContent=Math.round(s.consistency);consistencyV.className="value "+(s.consistency>=85?"green":s.consistency>=70?"blue":"red");aPlusV.textContent=pct(s.aPlus);const pg=processGoalProgress();processGoalV.textContent=Math.round(pg.score)+"%";processGoalV.className="value "+(pg.score>=85?"green":pg.score>=70?"blue":"red");processGoalS.textContent=pg.label;
   periodTag.textContent=currentPeriod==="all"?"All time":currentPeriod+" days";
-  drawLine(equityCanvas,s.curve);drawDaily(dailyCanvas,s.ts);renderWeekly(s.ts);renderMonthly();renderStreaks(s.ts);renderHighlightTrades(s.ts);
+  drawLine(equityCanvas,s.curve);drawDaily(dailyCanvas,s.ts);renderWeekly(s.ts);renderMonthly();renderStreaks(s.ts);renderHighlightTrades(s.ts);renderDrawdownRecovery(s.ts);renderProcessMini();
   const r=[...s.ts].reverse().slice(0,5);recentTrades.innerHTML=r.length?r.map(t=>tradeRow(t,true)).join(""):`<div class="empty">ยังไม่มี Trade</div>`
 }
 function tradeRow(t,compact=false){
-  return `<div class="trade"><div><div class="sym">${esc(t.symbol)} <span class="tag">${esc(t.side)}</span></div><div class="small muted">${esc(t.date)} · ${esc(t.setup||t.session||"")}</div></div><div class="hide-sm small">${(t.tags||[]).slice(0,2).map(x=>`<span class="tag">${esc(x)}</span>`).join(" ")}</div><div class="hide-sm small muted">${t.r!==""&&t.r!=null?Number(t.r).toFixed(2)+"R":"—"}</div><div class="${Number(t.pnl)>=0?"pos":"neg"}">${Number(t.pnl)>=0?"+":""}${money(t.pnl)}</div>${compact?"":`<div class="row"><button class="btn" onclick="editTrade('${t.id}')">✎</button><button class="btn" onclick="deleteTrade('${t.id}')">⌫</button></div>`}</div>`
+  return `<div class="trade"><div><div class="sym">${esc(t.symbol)} <span class="tag">${esc(t.side)}</span></div><div class="small muted">${esc(t.date)} · ${esc(t.setup||t.session||"")}</div></div><div class="hide-sm small">${(t.tags||[]).slice(0,2).map(x=>`<span class="tag">${esc(x)}</span>`).join(" ")}</div><div class="hide-sm small muted">${t.r!==""&&t.r!=null?Number(t.r).toFixed(2)+"R":"—"}</div><div class="${Number(t.pnl)>=0?"pos":"neg"}">${Number(t.pnl)>=0?"+":""}${money(t.pnl)}</div>${compact?"":`<div class="row"><button class="btn" onclick="viewTrade('${t.id}')">View</button><button class="btn" onclick="editTrade('${t.id}')">✎</button><button class="btn" onclick="deleteTrade('${t.id}')">⌫</button></div>`}</div>`
 }
 function setupCanvas(c,h=230){const d=window.devicePixelRatio||1,r=c.getBoundingClientRect();c.width=Math.max(1,r.width*d);c.height=h*d;const x=c.getContext("2d");x.scale(d,d);return {x,w:r.width,h}}
 function drawLine(c,arr){const {x,w,h}=setupCanvas(c);x.clearRect(0,0,w,h);x.strokeStyle="#22303e";for(let i=1;i<5;i++){let y=h*i/5;x.beginPath();x.moveTo(0,y);x.lineTo(w,y);x.stroke()}if(arr.length<2)return;let mn=Math.min(...arr),mx=Math.max(...arr),sp=Math.max(1,mx-mn);x.strokeStyle="#c6ff36";x.lineWidth=3;x.beginPath();arr.forEach((v,i)=>{let px=i/(arr.length-1)*w,py=h-18-(v-mn)/sp*(h-36);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()}
@@ -397,6 +430,72 @@ function renderStreaks(ts){
   streakSummary.innerHTML=`<div class="metric-list"><div class="metric-row"><b>Current</b><span class="pill">${cur}</span><span></span><span></span></div><div class="metric-row"><b>Best win streak</b><span class="pill">${maxW}</span><span></span><span></span></div><div class="metric-row"><b>Worst loss streak</b><span class="pill">${maxL}</span><span></span><span></span></div></div>`;
 }
 
+
+
+function getGoals(){try{return JSON.parse(localStorage.getItem(GOALKEY))||{gradeA:80,checklist:85,violations:3,mistakes:20}}catch{return{gradeA:80,checklist:85,violations:3,mistakes:20}}}
+function monthTrades(){
+  const d=new Date(),ym=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+  return allTrades().filter(t=>t.date.startsWith(ym))
+}
+function processGoalProgress(){
+  const a=monthTrades(),g=getGoals();if(!a.length)return {score:0,label:"no trades this month"};
+  const gradeA=a.filter(t=>(t.grade||"A")==="A").length/a.length*100;
+  const checklist=a.reduce((s,t)=>s+Number(t.checklistScore??100),0)/a.length;
+  const violations=a.reduce((s,t)=>s+getViolations(t).length,0);
+  const mistakeRate=a.filter(t=>(t.mistakes||[]).length).length/a.length*100;
+  const parts=[
+    Math.min(100,gradeA/Math.max(1,g.gradeA)*100),
+    Math.min(100,checklist/Math.max(1,g.checklist)*100),
+    violations<=g.violations?100:Math.max(0,100-(violations-g.violations)*20),
+    mistakeRate<=g.mistakes?100:Math.max(0,100-(mistakeRate-g.mistakes)*2)
+  ];
+  return {score:parts.reduce((x,y)=>x+y,0)/parts.length,label:`A ${gradeA.toFixed(0)}% · Checklist ${checklist.toFixed(0)}%`}
+}
+function renderProcessMini(){
+  const g=getGoals(),p=processGoalProgress(),a=monthTrades();
+  processGoalsMini.innerHTML=`<div class="metric-list">
+    <div class="metric-row"><b>Monthly score</b><span class="pill">${Math.round(p.score)}%</span><span></span><span></span></div>
+    <div class="metric-row"><b>Grade A target</b><span class="pill">${g.gradeA}%</span><span></span><span></span></div>
+    <div class="metric-row"><b>Checklist target</b><span class="pill">${g.checklist}%</span><span></span><span></span></div>
+    <div class="metric-row"><b>Trades this month</b><span class="pill">${a.length}</span><span></span><span></span></div>
+  </div>`;
+}
+function renderDrawdownRecovery(ts){
+  const cap=Number(activeP()?.capital||0);let eq=cap,peak=cap,ddStart=null,maxDD=0,recovered=0,ongoing=false;
+  ts.forEach((t,i)=>{eq+=Number(t.pnl||0);if(eq>=peak){if(ddStart!==null){recovered=i-ddStart;ddStart=null}peak=eq;ongoing=false}else{if(ddStart===null)ddStart=i;ongoing=true;maxDD=Math.max(maxDD,peak-eq)}});
+  drawdownRecovery.innerHTML=`<div class="metric-list">
+    <div class="metric-row"><b>Largest $ drawdown</b><span class="pill">${money(maxDD)}</span><span></span><span></span></div>
+    <div class="metric-row"><b>Last recovery length</b><span class="pill">${recovered||"—"} trades</span><span></span><span></span></div>
+    <div class="metric-row"><b>Current state</b><span class="pill">${ongoing?"In drawdown":"At/new equity high"}</span><span></span><span></span></div>
+  </div>`;
+}
+function timeBucket(t){
+  if(!t.time)return "Unknown";
+  const h=Number(String(t.time).split(":")[0]);
+  if(h<6)return "00–05";if(h<9)return "06–08";if(h<12)return "09–11";if(h<15)return "12–14";if(h<18)return "15–17";if(h<21)return "18–20";return "21–23"
+}
+function comboMetricStats(){
+  const g={};allTrades().forEach(t=>{const tags=[...(t.tags||[])].sort();if(tags.length<2)return;const key=tags.slice(0,3).join(" + ");g[key]??={n:0,w:0,p:0,rs:[]};g[key].n++;if(Number(t.pnl)>0)g[key].w++;g[key].p+=Number(t.pnl||0);if(t.r!==""&&t.r!=null&&!isNaN(Number(t.r)))g[key].rs.push(Number(t.r))});
+  return Object.entries(g).map(([k,v])=>({k,...v,wr:v.n?v.w/v.n:0,ar:v.rs.length?v.rs.reduce((a,b)=>a+b,0)/v.rs.length:0})).sort((a,b)=>b.n-a.n).slice(0,12)
+}
+function renderInsights(){
+  const days=["Mon","Tue","Wed","Thu","Fri"],sessions=["Asia","London","New York","Other"],map={};
+  allTrades().forEach(t=>{const d=new Date(t.date+"T00:00:00"),name=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()];const key=name+"|"+(t.session||"Other");map[key]??={p:0,n:0};map[key].p+=Number(t.pnl||0);map[key].n++});
+  let cells='<div></div>'+sessions.map(s=>`<div class="heat-head">${esc(s)}</div>`).join("");
+  days.forEach(d=>{cells+=`<div class="heat-label">${d}</div>`;sessions.forEach(s=>{const v=map[d+"|"+s]||{p:0,n:0};cells+=`<div class="heat-cell ${v.p>0?"posh":v.p<0?"negh":""}"><b>${v.n?money(v.p):"—"}</b><span class="small muted">${v.n} trades</span></div>`})});
+  sessionHeatmap.innerHTML=cells;
+  timeStats.innerHTML=metricHtml(metricStats(t=>timeBucket(t)));
+  comboStats.innerHTML=metricHtml(comboMetricStats());
+  renderDataHealth();
+  const g=getGoals();goalGradeA.value=g.gradeA;goalChecklist.value=g.checklist;goalViolations.value=g.violations;goalMistakes.value=g.mistakes;
+}
+function renderDataHealth(){
+  const a=allTrades(),total=a.length;if(!total){dataHealth.innerHTML='<div class="empty">ยังไม่มีข้อมูล</div>';return}
+  const fields=["setup","time","r","checklistScore"],labels=["Setup","Entry time","R multiple","Checklist score"];
+  const rows=fields.map((f,i)=>{const ok=a.filter(t=>t[f]!==""&&t[f]!=null).length,pc=ok/total*100;return `<div style="margin-bottom:11px"><div class="row" style="justify-content:space-between"><b class="small">${labels[i]}</b><span class="small muted">${Math.round(pc)}%</span></div><div class="healthbar"><span style="width:${pc}%"></span></div></div>`}).join("");
+  dataHealth.innerHTML=rows+`<div class="small muted">ยิ่งข้อมูลครบ Analytics ยิ่งน่าเชื่อถือ</div>`
+}
+saveGoalsBtn.onclick=()=>{localStorage.setItem(GOALKEY,JSON.stringify({gradeA:Number(goalGradeA.value||0),checklist:Number(goalChecklist.value||0),violations:Number(goalViolations.value||0),mistakes:Number(goalMistakes.value||0)}));renderInsights();renderDashboard();alert("บันทึก Process Goals แล้ว")};
 
 function renderHighlightTrades(ts){
   if(!ts.length){bestTradeCard.innerHTML=worstTradeCard.innerHTML=favoriteSummary.innerHTML='<div class="empty">ยังไม่มีข้อมูล</div>';return}
@@ -553,6 +652,27 @@ function openTrade(t=null){
 newTradeBtn.onclick=()=>openTrade();closeModal.onclick=cancelTrade.onclick=()=>tradeModal.classList.remove("open");
 function n(id){let v=$(id).value;return v===""?"":Number(v)}
 tradeForm.onsubmit=e=>{e.preventDefault();let o={id:tradeId.value||crypto.randomUUID(),portfolioId:activeP().id,date:tradeDate.value,symbol:tradeSymbol.value.trim().toUpperCase(),side:tradeSide.value,session:tradeSession.value,setup:tradeSetup.value.trim(),tf:tradeTf.value,time:tradeTime.value,grade:tradeGrade.value,favorite:tradeFavorite.value==="true",checklistScore:n("tradeChecklistScore"),entry:n("tradeEntry"),exit:n("tradeExit"),sl:n("tradeSL"),tp:n("tradeTP"),lot:n("tradeLot"),risk:n("tradeRisk"),pnl:n("tradePnl"),r:n("tradeR"),tags:[...selectedTags],mistakes:[...selectedMistakes],note:tradeNote.value,before:editImages.before,after:editImages.after};let i=state.trades.findIndex(t=>t.id===o.id);i>=0?state.trades[i]=o:state.trades.push(o);tradeModal.classList.remove("open");persist()};
+
+function tradeDetailHtml(t){
+  const violations=getViolations(t),imgs=(t.before||t.after)?`<div class="grid2" style="margin-top:12px">${t.before?`<div><div class="label">Before</div><img class="detail-img" src="${t.before}"></div>`:""}${t.after?`<div><div class="label">After</div><img class="detail-img" src="${t.after}"></div>`:""}</div>`:"";
+  return `<div class="detail-grid">
+    <div class="detail-box"><div class="label">Symbol</div><b>${esc(t.symbol)}</b></div>
+    <div class="detail-box"><div class="label">Date / Time</div><b>${esc(t.date)} ${esc(t.time||"")}</b></div>
+    <div class="detail-box"><div class="label">Setup</div><b>${esc(t.setup||"—")} · Grade ${esc(t.grade||"—")}</b></div>
+    <div class="detail-box"><div class="label">Session</div><b>${esc(t.session||"—")} · ${esc(t.tf||"—")}</b></div>
+    <div class="detail-box"><div class="label">Entry / SL / TP</div><b>${t.entry||"—"} / ${t.sl||"—"} / ${t.tp||"—"}</b></div>
+    <div class="detail-box"><div class="label">P&L / R</div><b class="${Number(t.pnl)>=0?"pos":"neg"}">${money(t.pnl)} · ${t.r!==""&&t.r!=null?Number(t.r).toFixed(2)+"R":"—"}</b></div>
+    <div class="detail-box"><div class="label">Checklist</div><b>${Math.round(Number(t.checklistScore??100))}%</b></div>
+    <div class="detail-box"><div class="label">Favorite</div><b>${t.favorite?"★ Yes":"No"}</b></div>
+  </div>
+  <div class="detail-box" style="margin-top:12px"><div class="label">Tags</div><div style="margin-top:7px">${(t.tags||[]).map(x=>`<span class="tag">${esc(x)}</span>`).join(" ")||"—"}</div></div>
+  <div class="detail-box" style="margin-top:12px"><div class="label">Mistakes / Violations</div><div class="small red" style="margin-top:7px">${[...(t.mistakes||[]),...violations].map(esc).join(" · ")||"None"}</div></div>
+  <div class="detail-box" style="margin-top:12px"><div class="label">Note</div><div style="margin-top:7px">${esc(t.note||"—")}</div></div>
+  ${imgs}`;
+}
+window.viewTrade=id=>{const t=state.trades.find(x=>x.id===id);if(!t)return;detailBody.innerHTML=tradeDetailHtml(t);detailModal.classList.add("open")};
+closeDetail.onclick=()=>detailModal.classList.remove("open");
+
 window.editTrade=id=>openTrade(state.trades.find(t=>t.id===id));window.deleteTrade=id=>{if(confirm("ลบ Trade นี้?")){state.trades=state.trades.filter(t=>t.id!==id);persist()}};
 
 exportBtn.onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v4-backup.json";a.click();URL.revokeObjectURL(a.href)};
@@ -561,7 +681,7 @@ exportCsvBtn.onclick=()=>{
   const rows=[["date","time","symbol","side","session","setup","grade","favorite","timeframe","entry","exit","sl","tp","lot","risk_pct","pnl","r","checklist_score","tags","mistakes","note"]];
   allTrades().forEach(t=>rows.push([t.date,t.time||"",t.symbol,t.side,t.session||"",t.setup||"",t.grade||"",t.favorite?1:0,t.tf||"",t.entry??"",t.exit??"",t.sl??"",t.tp??"",t.lot??"",t.risk??"",t.pnl??"",t.r??"",t.checklistScore??100,(t.tags||[]).join("|"),(t.mistakes||[]).join("|"),t.note||""]));
   const csv=rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v7-trades.csv";a.click();URL.revokeObjectURL(a.href)
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v8-trades.csv";a.click();URL.revokeObjectURL(a.href)
 };
 
 importInput.onchange=()=>{let f=importInput.files?.[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.portfolios||!d.trades)throw 0;state=d;persist();alert("Import สำเร็จ")}catch{alert("ไฟล์ไม่ถูกต้อง")}};r.readAsText(f)};
@@ -577,9 +697,15 @@ async function pushCloud(){if(!sb||!sessionUser)return alert("Sign in ก่อ�
 async function pullCloud(){if(!sb||!sessionUser)return alert("Sign in ก่อน");let {data,error}=await sb.from("edgelog_data").select("payload").eq("user_id",sessionUser.id).maybeSingle();if(error)return alert(error.message);if(!data?.payload)return alert("ยังไม่มีข้อมูลบน Cloud");state=data.payload;persist();alert("Pull ลงเครื่องแล้ว")}
 pushCloudBtn.onclick=pushCloud;pullCloudBtn.onclick=pullCloud;cloudBtn.onclick=()=>showPage("settings");
 
-function renderAll(){renderPortfolio();renderDashboard();renderHistory();renderCalendar();renderAnalytics();renderRules();renderReview();renderPlaybook();renderGallery();renderJournal();renderSettings()}
+function renderAll(){renderPortfolio();renderDashboard();renderHistory();renderCalendar();renderAnalytics();renderRules();renderReview();renderInsights();renderPlaybook();renderGallery();renderJournal();renderSettings()}
 window.addEventListener("resize",()=>{drawLine(equityCanvas,stats().curve);drawDaily(dailyCanvas,stats().ts)});
 calcRisk();calcRR();initSupabase();renderAll();
 </script>
+
+<div class="modal" id="detailModal"><div class="sheet">
+  <div class="sheethead"><h2>Trade Detail</h2><button class="btn" id="closeDetail">✕</button></div>
+  <div id="detailBody"></div>
+</div></div>
+
 </body>
 </html>
