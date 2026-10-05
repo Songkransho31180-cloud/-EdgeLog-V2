@@ -1,20 +1,21 @@
-# EdgeLog V5
+# EdgeLog V6
 
-V5 ต่อจาก V4 และย้ายข้อมูลเดิมให้อัตโนมัติ
+V6 ต่อจาก V5 และย้ายข้อมูล V5/V4/V3 เดิมให้อัตโนมัติ
 
 ## เพิ่มใหม่
-- Pre-trade Checklist
-- Setup Grade A/B/C
-- Checklist Score ต่อ Trade
-- Daily Loss Limit / Max Risk / Max Trades per Day / Max Losing Streak
-- Discipline Score
-- Expectancy
-- Win/Loss Streak
-- Monthly Summary
-- Export CSV
-- ใช้ข้อมูล V4 / V3 เดิมต่อได้
+- Mistake Tags: FOMO, Revenge, Overtrade, Early Entry, Moved SL ฯลฯ
+- Rule Violation อัตโนมัติ
+- Consistency Score
+- Minimum RR / Minimum Checklist rules
+- Review Center
+- Most Costly / Most Frequent Mistake
+- Monthly Review + Violation Log
+- Screenshot Gallery (Before / After)
+- Lessons Bank
+- Export CSV มี mistake tags
+- ใช้ข้อมูลเวอร์ชันก่อนต่อได้
 
 ## อัปเดต GitHub
 อัปโหลด `index.html` ไปแทนไฟล์เดิมใน root ของ repo แล้ว Commit to main
 
-> หมายเหตุ: Risk/discipline tools เป็นเครื่องมือบันทึกและช่วยเตือน ไม่ใช่คำแนะนำให้เพิ่มความเสี่ยงในการเทรด
+> เครื่องมือนี้เน้นการบันทึกและควบคุมความเสี่ยง ไม่ได้เชื่อมส่งคำสั่งซื้อขายจริง

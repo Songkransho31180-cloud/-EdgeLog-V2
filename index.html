@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080d12">
-<title>EdgeLog V5</title>
+<title>EdgeLog V6</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -37,19 +37,19 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.dow{text-align:center;color:var(--muted);font-size:10px;padding:5px}.day{min-height:72px;border:1px solid var(--line);border-radius:11px;padding:7px;background:#091018}.day.blank{opacity:.25}.day .n{font-size:11px;color:var(--muted)}.day .p{font-size:11px;font-weight:900;margin-top:8px}
 .metric-list{display:grid;gap:8px}.metric-row{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:13px;background:#091018}.metric-row b{font-size:13px}.pill{font-size:10px;padding:5px 7px;border-radius:999px;background:#172230;color:#b8c6d7}
 .tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}.resultbox{margin-top:12px;padding:14px;border-radius:15px;background:#091018;border:1px solid var(--line)}.resultbox strong{font-size:24px;display:block;margin-top:3px}
-.hr{height:1px;background:var(--line);margin:17px 0}.backup{display:flex;gap:8px;flex-wrap:wrap}.mobilebar{display:none}
+.hr{height:1px;background:var(--line);margin:17px 0}.backup{display:flex;gap:8px;flex-wrap:wrap}.mobilebar{display:none}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.gallery-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}.gallery-card img{width:100%;height:180px;object-fit:cover;display:block}.gallery-meta{padding:12px}.gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#000}.gallery-pair img{height:150px}.lesson{padding:11px 0;border-bottom:1px solid var(--line)}.lesson:last-child{border-bottom:0}
 @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:900px){
  .layout{display:block}.side{display:none}main{padding:19px 13px}.cards{grid-template-columns:repeat(2,1fr)}.grid2,.grid3,.tools{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar .wide{grid-column:1/-1}.trade{grid-template-columns:1fr auto auto}.trade .hide-sm{display:none}
  .mobilebar{display:grid;grid-template-columns:repeat(7,1fr);position:fixed;left:0;right:0;bottom:0;z-index:50;background:#080d12;border-top:1px solid var(--line);padding:7px 2px max(7px,env(safe-area-inset-bottom))}
  .mobilebar button{border:0;background:transparent;color:var(--muted);font-size:10px;padding:8px 1px}.mobilebar button.active{color:var(--lime);font-weight:900}
 }
-@media(max-width:560px){.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.span2{grid-column:auto}.hero{align-items:start;flex-direction:column}.value{font-size:30px}.calendar{gap:3px}.day{min-height:58px;padding:5px}.metric-row{grid-template-columns:1fr auto}}
+@media(max-width:560px){.gallery-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.span2{grid-column:auto}.hero{align-items:start;flex-direction:column}.value{font-size:30px}.calendar{gap:3px}.day{min-height:58px;padding:5px}.metric-row{grid-template-columns:1fr auto}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="brand">Edge<b>Log</b> V5</div><div class="top-actions"><button class="btn" id="cloudBtn">☁ Cloud</button><button class="primary" id="newTradeBtn">+ New Trade</button></div></header>
+<header class="top"><div class="brand">Edge<b>Log</b> V6</div><div class="top-actions"><button class="btn" id="cloudBtn">☁ Cloud</button><button class="primary" id="newTradeBtn">+ New Trade</button></div></header>
 <div class="layout">
 <aside class="side">
   <nav class="nav">
@@ -59,10 +59,12 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <button data-page="analytics">ICT / SMC Analytics</button>
     <button data-page="tools">Risk & RR Tools</button>
     <button data-page="rules">Rules & Discipline</button>
+    <button data-page="review">Review Center</button>
+    <button data-page="gallery">Screenshot Gallery</button>
     <button data-page="journal">Journal</button>
     <button data-page="settings">Settings</button>
   </nav>
-  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V5 ใช้ Local ได้ทันที และต่อ Supabase ได้ภายหลัง</div></div>
+  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V6 ใช้ Local ได้ทันที และต่อ Supabase ได้ภายหลัง</div></div>
 </aside>
 <main>
 
@@ -78,6 +80,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <div class="card"><div class="label">Max Drawdown</div><div class="value red" id="ddV">0%</div><div class="sub">จาก equity curve</div></div>
     <div class="card"><div class="label">Expectancy</div><div class="value blue" id="expectancyV">$0</div><div class="sub">เฉลี่ยต่อ 1 trade</div></div>
     <div class="card"><div class="label">Discipline Score</div><div class="value" id="disciplineV">100</div><div class="sub">Checklist + rules</div></div>
+    <div class="card"><div class="label">Consistency</div><div class="value" id="consistencyV">100</div><div class="sub">rule-following score</div></div>
   </div>
   <div class="grid2">
     <div class="card"><div class="section-title"><h2>Equity Curve</h2><span class="tag" id="periodTag">All time</span></div><canvas id="equityCanvas"></canvas></div>
@@ -153,6 +156,8 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
         <div class="field"><label>Max risk per trade (%)</label><input class="input" id="maxRiskPerTrade" type="number" step="0.1" value="1"></div>
         <div class="field"><label>Max trades per day</label><input class="input" id="maxTradesPerDay" type="number" step="1" value="3"></div>
         <div class="field"><label>Max losing streak</label><input class="input" id="maxLosingStreak" type="number" step="1" value="3"></div>
+        <div class="field"><label>Minimum RR</label><input class="input" id="minRR" type="number" step="0.1" value="1.5"></div>
+        <div class="field"><label>Minimum checklist score</label><input class="input" id="minChecklist" type="number" step="1" value="80"></div>
       </div>
       <button class="primary" id="saveRulesBtn" style="margin-top:11px">Save Rules</button>
       <div class="resultbox"><span class="label">Today status</span><strong id="todayGuard">OK</strong><div class="small muted" id="todayGuardDetail"></div></div>
@@ -167,6 +172,38 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <div class="section-title"><h2>Discipline Review</h2></div>
     <div id="disciplineReview"></div>
   </div>
+</section>
+
+
+<section class="page" id="page-review">
+  <div class="hero"><div><div class="eyebrow">REVIEW CENTER</div><h1>Find Your Leaks</h1><p>ดูข้อผิดพลาดซ้ำ กฎที่หลุด และสิ่งที่ควรแก้ก่อนเทรดครั้งต่อไป</p></div></div>
+  <div class="grid3">
+    <div class="card"><div class="section-title"><h2>Most Costly Mistake</h2></div><div id="costlyMistake"></div></div>
+    <div class="card"><div class="section-title"><h2>Most Frequent Mistake</h2></div><div id="frequentMistake"></div></div>
+    <div class="card"><div class="section-title"><h2>Rule Violations</h2></div><div id="ruleViolationSummary"></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h2>Mistake Performance</h2></div><div class="metric-list" id="mistakeStats"></div></div>
+    <div class="card"><div class="section-title"><h2>Monthly Review</h2></div><div id="monthlyReview"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="section-title"><h2>Rule Violation Log</h2></div>
+    <div id="violationLog"></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="section-title"><h2>Lessons Bank</h2></div>
+    <div class="formgrid">
+      <div class="field span2"><label>สิ่งที่อยากจำก่อนเทรดครั้งหน้า</label><textarea class="textarea" id="lessonInput" placeholder="เช่น รอ sweep ให้ชัดก่อน ไม่เข้าเพราะกลัวตกรถ"></textarea></div>
+    </div>
+    <button class="primary" id="saveLessonBtn" style="margin-top:10px">Save Lesson</button>
+    <div class="hr"></div>
+    <div id="lessonList"></div>
+  </div>
+</section>
+
+<section class="page" id="page-gallery">
+  <div class="hero"><div><div class="eyebrow">SCREENSHOTS</div><h1>Chart Gallery</h1><p>รวมภาพ Before / After จาก Trade ที่บันทึกไว้</p></div></div>
+  <div id="galleryGrid" class="gallery-grid"></div>
 </section>
 
 <section class="page" id="page-journal">
@@ -196,7 +233,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </div>
 
 <nav class="mobilebar">
-  <button class="active" data-page="dashboard">Home</button><button data-page="history">Trades</button><button data-page="analytics">Stats</button><button data-page="tools">Tools</button><button data-page="rules">Rules</button><button data-page="journal">Journal</button><button data-page="settings">Settings</button>
+  <button class="active" data-page="dashboard">Home</button><button data-page="history">Trades</button><button data-page="analytics">Stats</button><button data-page="review">Review</button><button data-page="gallery">Gallery</button><button data-page="journal">Journal</button><button data-page="settings">Settings</button>
 </nav>
 </div>
 
@@ -221,6 +258,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
       <div class="field"><label>P&L ($)</label><input class="input" type="number" step="0.01" id="tradePnl" required></div>
       <div class="field"><label>R Multiple</label><input class="input" type="number" step="0.01" id="tradeR"></div>
       <div class="field span2"><label>Confluence Tags</label><div class="chips" id="tagChips"></div></div>
+      <div class="field span2"><label>Mistake Tags</label><div class="chips" id="mistakeChips"></div></div>
       <div class="field span2"><label>Note</label><textarea class="textarea" id="tradeNote"></textarea></div>
       <div class="field"><label>Before</label><input class="input" type="file" accept="image/*" id="beforeInput"><img class="preview" id="beforePreview"></div>
       <div class="field"><label>After</label><input class="input" type="file" accept="image/*" id="afterInput"><img class="preview" id="afterPreview"></div>
@@ -230,22 +268,26 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </div></div>
 
 <script>
-const K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v5_cloud";
+const K6="edgelog_v6_state",K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v6_cloud";
 const TAGS=["FVG","OB","Liquidity","Sweep","BOS","CHOCH","MSS","Breaker","OTE","SMT","PD Array","Killzone"];
 let selectedTags=new Set(), editImages={before:"",after:""}, currentMonth=new Date(), currentPeriod="all", sb=null, sessionUser=null;
-const RULEKEY="edgelog_v5_rules";
+const RULEKEY="edgelog_v6_rules";
+const LESSONKEY="edgelog_v6_lessons";
+const MISTAKES=["FOMO","Revenge","Overtrade","Early Entry","Late Entry","Moved SL","No Confirmation","Against Bias","Oversized Risk","News Trade"];
+let selectedMistakes=new Set();
 const CHECKS=["HTF bias ชัดเจน","มี Liquidity target","มี Entry model ที่กำหนดไว้","RR ผ่านเกณฑ์","ไม่ไล่ราคา / ไม่ FOMO","ไม่มีข่าวแรงใกล้เกินไป"];
 
 const $=id=>document.getElementById(id);
 const def=()=>({portfolios:[{id:crypto.randomUUID(),name:"Main Portfolio",capital:1000}],activePortfolioId:null,trades:[],journals:{}});
 function load(){
-  try{let a=JSON.parse(localStorage.getItem(K5));if(a?.portfolios)return a}catch{}
-  try{let b=JSON.parse(localStorage.getItem(K4));if(b?.portfolios){localStorage.setItem(K5,JSON.stringify(b));return b}}catch{}
-  try{let c=JSON.parse(localStorage.getItem(K3));if(c?.portfolios){localStorage.setItem(K5,JSON.stringify(c));return c}}catch{}
+  try{let a=JSON.parse(localStorage.getItem(K6));if(a?.portfolios)return a}catch{}
+  try{let b=JSON.parse(localStorage.getItem(K5));if(b?.portfolios){localStorage.setItem(K6,JSON.stringify(b));return b}}catch{}
+  try{let c=JSON.parse(localStorage.getItem(K4));if(c?.portfolios){localStorage.setItem(K6,JSON.stringify(c));return c}}catch{}
+  try{let d=JSON.parse(localStorage.getItem(K3));if(d?.portfolios){localStorage.setItem(K6,JSON.stringify(d));return d}}catch{}
   return def()
 }
 let state=load();if(!state.activePortfolioId)state.activePortfolioId=state.portfolios[0]?.id||null;
-function persist(){localStorage.setItem(K5,JSON.stringify(state));renderAll()}
+function persist(){localStorage.setItem(K6,JSON.stringify(state));renderAll()}
 function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function money(n){return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number(n||0))}
 function pct(n){return (Number(n||0)*100).toFixed(1)+"%"}
@@ -260,26 +302,26 @@ function stats(ts=filteredTrades()){
   const cap=Number(activeP()?.capital||0);let eq=cap,peak=cap,maxdd=0,w=0,l=0,gw=0,gl=0,rs=[];
   const curve=[cap];ts.forEach(t=>{let p=Number(t.pnl||0);eq+=p;curve.push(eq);if(p>0){w++;gw+=p}else if(p<0){l++;gl+=Math.abs(p)}
     if(t.r!==""&&t.r!=null&&!Number.isNaN(Number(t.r)))rs.push(Number(t.r));peak=Math.max(peak,eq);if(peak>0)maxdd=Math.max(maxdd,(peak-eq)/peak)});
-  const expectancy=ts.length?(eq-cap)/ts.length:0;const discipline=ts.length?ts.reduce((a,t)=>a+Number(t.checklistScore??100),0)/ts.length:100;return {cap,eq,pnl:eq-cap,total:ts.length,w,l,wr:(w+l)?w/(w+l):0,pf:gl?gw/gl:(gw?Infinity:0),avgR:rs.length?rs.reduce((a,b)=>a+b,0)/rs.length:0,maxdd,curve,ts,expectancy,discipline}
+  const expectancy=ts.length?(eq-cap)/ts.length:0;const discipline=ts.length?ts.reduce((a,t)=>a+Number(t.checklistScore??100),0)/ts.length:100;const violations=ts.reduce((a,t)=>a+getViolations(t).length,0);const consistency=ts.length?Math.max(0,100-(violations/ts.length)*20):100;return {cap,eq,pnl:eq-cap,total:ts.length,w,l,wr:(w+l)?w/(w+l):0,pf:gl?gw/gl:(gw?Infinity:0),avgR:rs.length?rs.reduce((a,b)=>a+b,0)/rs.length:0,maxdd,curve,ts,expectancy,discipline,consistency,violations}
 }
 function showPage(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+name));
   document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
-  if(name==="calendar")renderCalendar();if(name==="analytics")renderAnalytics();if(name==="settings")renderSettings();window.scrollTo({top:0,behavior:"smooth"})
+  if(name==="calendar")renderCalendar();if(name==="analytics")renderAnalytics();if(name==="review")renderReview();if(name==="gallery")renderGallery();if(name==="settings")renderSettings();window.scrollTo({top:0,behavior:"smooth"})
 }
 document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>showPage(b.dataset.goto));
 
 function renderPortfolio(){
   portfolioSelect.innerHTML=state.portfolios.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");portfolioSelect.value=state.activePortfolioId||"";
-  portfolioSelect.onchange=()=>{state.activePortfolioId=portfolioSelect.value;localStorage.setItem(K5,JSON.stringify(state));renderAll()}
+  portfolioSelect.onchange=()=>{state.activePortfolioId=portfolioSelect.value;localStorage.setItem(K6,JSON.stringify(state));renderAll()}
 }
 document.querySelectorAll("[data-period]").forEach(b=>b.onclick=()=>{currentPeriod=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.classList.toggle("active",x===b));renderDashboard()});
 
 function renderDashboard(){
   const s=stats();balanceV.textContent=money(s.eq);balanceS.textContent="Starting "+money(s.cap);
   pnlV.textContent=(s.pnl>=0?"+":"")+money(s.pnl);pnlV.className="value "+(s.pnl>=0?"green":"red");pnlS.textContent=s.total+" trades";
-  winV.textContent=pct(s.wr);winS.textContent=`${s.w} wins / ${s.l} losses`;pfV.textContent=s.pf===Infinity?"∞":s.pf.toFixed(2);avgRV.textContent=s.avgR.toFixed(2)+"R";ddV.textContent="-"+pct(s.maxdd);expectancyV.textContent=(s.expectancy>=0?"+":"")+money(s.expectancy);expectancyV.className="value "+(s.expectancy>=0?"green":"red");disciplineV.textContent=Math.round(s.discipline);disciplineV.className="value "+(s.discipline>=85?"green":s.discipline>=70?"blue":"red");
+  winV.textContent=pct(s.wr);winS.textContent=`${s.w} wins / ${s.l} losses`;pfV.textContent=s.pf===Infinity?"∞":s.pf.toFixed(2);avgRV.textContent=s.avgR.toFixed(2)+"R";ddV.textContent="-"+pct(s.maxdd);expectancyV.textContent=(s.expectancy>=0?"+":"")+money(s.expectancy);expectancyV.className="value "+(s.expectancy>=0?"green":"red");disciplineV.textContent=Math.round(s.discipline);disciplineV.className="value "+(s.discipline>=85?"green":s.discipline>=70?"blue":"red");consistencyV.textContent=Math.round(s.consistency);consistencyV.className="value "+(s.consistency>=85?"green":s.consistency>=70?"blue":"red");
   periodTag.textContent=currentPeriod==="all"?"All time":currentPeriod+" days";
   drawLine(equityCanvas,s.curve);drawDaily(dailyCanvas,s.ts);renderWeekly(s.ts);renderMonthly();renderStreaks(s.ts);
   const r=[...s.ts].reverse().slice(0,5);recentTrades.innerHTML=r.length?r.map(t=>tradeRow(t,true)).join(""):`<div class="empty">ยังไม่มี Trade</div>`
@@ -340,12 +382,22 @@ function calcRR(){let e=Number(rrEntry.value),s=Number(rrStop.value),t=Number(rr
 
 
 function getRules(){try{return JSON.parse(localStorage.getItem(RULEKEY))||{}}catch{return{}}}
+
+function getViolations(t){
+  const r=getRules(),v=[];
+  if(r.maxRiskPerTrade && Number(t.risk||0)>r.maxRiskPerTrade)v.push(`Risk ${t.risk}% > ${r.maxRiskPerTrade}%`);
+  if(r.minRR && t.r!=="" && t.r!=null && Number(t.r)<r.minRR)v.push(`R ${Number(t.r).toFixed(2)} < ${r.minRR}`);
+  if(r.minChecklist && Number(t.checklistScore??100)<r.minChecklist)v.push(`Checklist ${t.checklistScore}% < ${r.minChecklist}%`);
+  if((t.grade||"A")==="C")v.push("Setup Grade C");
+  return v
+}
+
 function renderRules(){
-  const r=getRules();dailyLossLimit.value=r.dailyLossLimit??2;maxRiskPerTrade.value=r.maxRiskPerTrade??1;maxTradesPerDay.value=r.maxTradesPerDay??3;maxLosingStreak.value=r.maxLosingStreak??3;
+  const r=getRules();dailyLossLimit.value=r.dailyLossLimit??2;maxRiskPerTrade.value=r.maxRiskPerTrade??1;maxTradesPerDay.value=r.maxTradesPerDay??3;maxLosingStreak.value=r.maxLosingStreak??3;minRR.value=r.minRR??1.5;minChecklist.value=r.minChecklist??80;
   ruleChecklist.innerHTML=CHECKS.map((x,i)=>`<label class="metric-row"><b>${esc(x)}</b><input type="checkbox" class="preCheck" data-i="${i}" checked></label>`).join("");
   renderTodayGuard();renderDisciplineReview();
 }
-saveRulesBtn.onclick=()=>{localStorage.setItem(RULEKEY,JSON.stringify({dailyLossLimit:Number(dailyLossLimit.value||0),maxRiskPerTrade:Number(maxRiskPerTrade.value||0),maxTradesPerDay:Number(maxTradesPerDay.value||0),maxLosingStreak:Number(maxLosingStreak.value||0)}));renderRules();alert("บันทึกกฎแล้ว")};
+saveRulesBtn.onclick=()=>{localStorage.setItem(RULEKEY,JSON.stringify({dailyLossLimit:Number(dailyLossLimit.value||0),maxRiskPerTrade:Number(maxRiskPerTrade.value||0),maxTradesPerDay:Number(maxTradesPerDay.value||0),maxLosingStreak:Number(maxLosingStreak.value||0),minRR:Number(minRR.value||0),minChecklist:Number(minChecklist.value||0)}));renderRules();alert("บันทึกกฎแล้ว")};
 function renderTodayGuard(){
   const r=getRules(),today=new Date().toISOString().slice(0,10),ts=allTrades().filter(t=>t.date===today),p=ts.reduce((s,t)=>s+Number(t.pnl||0),0),cap=Number(activeP()?.capital||0),lossPct=cap?Math.max(0,-p/cap*100):0;
   const last=[...allTrades()].reverse();let ls=0;for(const t of last){if(Number(t.pnl)<0)ls++;else break}
@@ -355,6 +407,39 @@ function renderTodayGuard(){
 function renderDisciplineReview(){
   const ts=[...allTrades()].reverse().slice(0,20);if(!ts.length){disciplineReview.innerHTML='<div class="empty">ยังไม่มีข้อมูล</div>';return}
   disciplineReview.innerHTML=ts.map(t=>`<div class="metric-row"><b>${esc(t.date)} · ${esc(t.symbol)}</b><span class="pill">Grade ${esc(t.grade||"—")}</span><span class="pill">${Math.round(Number(t.checklistScore??100))}%</span><span class="${Number(t.pnl)>=0?"pos":"neg"}">${money(t.pnl)}</span></div>`).join("")
+}
+
+
+function mistakeMetricStats(){
+  const g={};allTrades().forEach(t=>(t.mistakes||[]).forEach(k=>{g[k]??={n:0,p:0};g[k].n++;g[k].p+=Number(t.pnl||0)}));
+  return Object.entries(g).map(([k,v])=>({k,...v})).sort((a,b)=>b.n-a.n)
+}
+function renderReview(){
+  const ms=mistakeMetricStats();
+  const costly=[...ms].sort((a,b)=>a.p-b.p)[0],freq=ms[0];
+  costlyMistake.innerHTML=costly?`<div class="value red">${esc(costly.k)}</div><div class="sub">${money(costly.p)} total impact</div>`:`<div class="empty">ยังไม่มี mistake tag</div>`;
+  frequentMistake.innerHTML=freq?`<div class="value">${esc(freq.k)}</div><div class="sub">${freq.n} ครั้ง</div>`:`<div class="empty">ยังไม่มี mistake tag</div>`;
+  const ts=allTrades(),viol=ts.reduce((a,t)=>a+getViolations(t).length,0);
+  ruleViolationSummary.innerHTML=`<div class="value ${viol?"red":"green"}">${viol}</div><div class="sub">violations จาก ${ts.length} trades</div>`;
+  mistakeStats.innerHTML=ms.length?ms.map(v=>`<div class="metric-row"><b>${esc(v.k)}</b><span class="pill">${v.n} ครั้ง</span><span></span><span class="${v.p>=0?"pos":"neg"}">${v.p>=0?"+":""}${money(v.p)}</span></div>`).join(""):`<div class="empty">ยังไม่มีข้อมูล</div>`;
+  renderMonthlyReview();renderViolationLog();renderLessons();
+}
+function renderMonthlyReview(){
+  const groups={};allTrades().forEach(t=>{const m=t.date.slice(0,7);(groups[m]??=[]).push(t)});
+  const rows=Object.entries(groups).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,8);
+  monthlyReview.innerHTML=rows.length?rows.map(([m,a])=>{const p=a.reduce((s,t)=>s+Number(t.pnl||0),0),w=a.filter(t=>Number(t.pnl)>0).length,v=a.reduce((s,t)=>s+getViolations(t).length,0);return `<div class="metric-row"><b>${m}</b><span class="pill">${a.length} trades · ${a.length?Math.round(w/a.length*100):0}% WR</span><span class="pill">${v} violations</span><span class="${p>=0?"pos":"neg"}">${p>=0?"+":""}${money(p)}</span></div>`}).join(""):`<div class="empty">ยังไม่มีข้อมูล</div>`
+}
+function renderViolationLog(){
+  const rows=[...allTrades()].reverse().map(t=>({t,v:getViolations(t)})).filter(x=>x.v.length).slice(0,30);
+  violationLog.innerHTML=rows.length?rows.map(({t,v})=>`<div class="metric-row"><b>${esc(t.date)} · ${esc(t.symbol)}</b><span class="pill">${v.map(esc).join(" · ")}</span><span></span><span class="${Number(t.pnl)>=0?"pos":"neg"}">${money(t.pnl)}</span></div>`).join(""):`<div class="empty">ไม่พบ Rule Violation</div>`
+}
+function getLessons(){try{return JSON.parse(localStorage.getItem(LESSONKEY))||[]}catch{return[]}}
+function renderLessons(){const a=getLessons();lessonList.innerHTML=a.length?a.map((x,i)=>`<div class="lesson"><b>${esc(x.date)}</b><div class="small muted" style="margin-top:4px">${esc(x.text)}</div><button class="btn" style="margin-top:6px" onclick="deleteLesson(${i})">ลบ</button></div>`).join(""):`<div class="empty">ยังไม่มี Lesson</div>`}
+saveLessonBtn.onclick=()=>{const text=lessonInput.value.trim();if(!text)return;const a=getLessons();a.unshift({date:new Date().toISOString().slice(0,10),text});localStorage.setItem(LESSONKEY,JSON.stringify(a));lessonInput.value="";renderLessons()};
+window.deleteLesson=i=>{const a=getLessons();a.splice(i,1);localStorage.setItem(LESSONKEY,JSON.stringify(a));renderLessons()};
+function renderGallery(){
+  const rows=[...allTrades()].reverse().filter(t=>t.before||t.after);
+  galleryGrid.innerHTML=rows.length?rows.map(t=>`<div class="gallery-card"><div class="gallery-pair">${t.before?`<img src="${t.before}" alt="Before">`:`<div></div>`}${t.after?`<img src="${t.after}" alt="After">`:`<div></div>`}</div><div class="gallery-meta"><b>${esc(t.symbol)} · ${esc(t.date)}</b><div class="small muted" style="margin-top:4px">${esc(t.setup||t.session||"")}</div><div class="${Number(t.pnl)>=0?"pos":"neg"}" style="margin-top:6px">${money(t.pnl)}</div></div></div>`).join(""):`<div class="empty">ยังไม่มีภาพ Before / After</div>`
 }
 
 function renderJournal(){let d=journalDate.value||new Date().toISOString().slice(0,10);journalDate.value=d;let j=state.journals[d]||{};journalMood.value=j.mood||"Focused";journalPlan.value=j.plan||j.text||"";journalReview.value=j.review||""}
@@ -368,29 +453,32 @@ addPortfolio.onclick=()=>{let n=newPortfolioName.value.trim(),c=Number(newPortfo
 window.removePortfolio=id=>{if(state.portfolios.length<=1)return alert("ต้องเหลืออย่างน้อย 1 พอร์ต");if(!confirm("ลบพอร์ตและ Trade ในพอร์ตนี้?"))return;state.portfolios=state.portfolios.filter(p=>p.id!==id);state.trades=state.trades.filter(t=>t.portfolioId!==id);if(state.activePortfolioId===id)state.activePortfolioId=state.portfolios[0].id;persist()};
 
 tagChips.innerHTML=TAGS.map(t=>`<button class="chip" type="button" data-tag="${t}">${t}</button>`).join("");
+mistakeChips.innerHTML=MISTAKES.map(t=>`<button class="chip" type="button" data-mistake="${t}">${t}</button>`).join("");
 tagChips.onclick=e=>{let b=e.target.closest("[data-tag]");if(!b)return;let t=b.dataset.tag;selectedTags.has(t)?selectedTags.delete(t):selectedTags.add(t);renderTags()};
+mistakeChips.onclick=e=>{let b=e.target.closest("[data-mistake]");if(!b)return;let t=b.dataset.mistake;selectedMistakes.has(t)?selectedMistakes.delete(t):selectedMistakes.add(t);renderMistakes()};
 function renderTags(){document.querySelectorAll("[data-tag]").forEach(b=>b.classList.toggle("on",selectedTags.has(b.dataset.tag)))}
+function renderMistakes(){document.querySelectorAll("[data-mistake]").forEach(b=>b.classList.toggle("on",selectedMistakes.has(b.dataset.mistake)))}
 function preview(el,src){el.src=src||"";el.style.display=src?"block":"none"}
 function handleImg(inp,key,el){let f=inp.files?.[0];if(!f)return;let r=new FileReader();r.onload=()=>{let im=new Image();im.onload=()=>{let max=900,s=Math.min(1,max/im.width),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);editImages[key]=c.toDataURL("image/jpeg",.7);preview(el,editImages[key])};im.src=r.result};r.readAsDataURL(f)}
 beforeInput.onchange=()=>handleImg(beforeInput,"before",beforePreview);afterInput.onchange=()=>handleImg(afterInput,"after",afterPreview);
 function openTrade(t=null){
-  tradeForm.reset();tradeDate.value=new Date().toISOString().slice(0,10);tradeSymbol.value="XAUUSD";tradeId.value=t?.id||"";selectedTags=new Set(t?.tags||[]);editImages={before:t?.before||"",after:t?.after||""};
+  tradeForm.reset();tradeDate.value=new Date().toISOString().slice(0,10);tradeSymbol.value="XAUUSD";tradeId.value=t?.id||"";selectedTags=new Set(t?.tags||[]);selectedMistakes=new Set(t?.mistakes||[]);editImages={before:t?.before||"",after:t?.after||""};
   if(!t){tradeChecklistScore.value=100;tradeGrade.value="A"}
   if(t){modalTitle.textContent="Edit Trade";tradeDate.value=t.date;tradeSymbol.value=t.symbol;tradeSide.value=t.side;tradeSession.value=t.session||"Other";tradeSetup.value=t.setup||"";tradeTf.value=t.tf||"M5";tradeGrade.value=t.grade||"A";tradeChecklistScore.value=t.checklistScore??100;tradeEntry.value=t.entry??"";tradeExit.value=t.exit??"";tradeSL.value=t.sl??"";tradeTP.value=t.tp??"";tradeLot.value=t.lot??"";tradeRisk.value=t.risk??"";tradePnl.value=t.pnl??"";tradeR.value=t.r??"";tradeNote.value=t.note||""}else modalTitle.textContent="New Trade";
-  renderTags();preview(beforePreview,editImages.before);preview(afterPreview,editImages.after);tradeModal.classList.add("open")
+  renderTags();renderMistakes();preview(beforePreview,editImages.before);preview(afterPreview,editImages.after);tradeModal.classList.add("open")
 }
 newTradeBtn.onclick=()=>openTrade();closeModal.onclick=cancelTrade.onclick=()=>tradeModal.classList.remove("open");
 function n(id){let v=$(id).value;return v===""?"":Number(v)}
-tradeForm.onsubmit=e=>{e.preventDefault();let o={id:tradeId.value||crypto.randomUUID(),portfolioId:activeP().id,date:tradeDate.value,symbol:tradeSymbol.value.trim().toUpperCase(),side:tradeSide.value,session:tradeSession.value,setup:tradeSetup.value.trim(),tf:tradeTf.value,grade:tradeGrade.value,checklistScore:n("tradeChecklistScore"),entry:n("tradeEntry"),exit:n("tradeExit"),sl:n("tradeSL"),tp:n("tradeTP"),lot:n("tradeLot"),risk:n("tradeRisk"),pnl:n("tradePnl"),r:n("tradeR"),tags:[...selectedTags],note:tradeNote.value,before:editImages.before,after:editImages.after};let i=state.trades.findIndex(t=>t.id===o.id);i>=0?state.trades[i]=o:state.trades.push(o);tradeModal.classList.remove("open");persist()};
+tradeForm.onsubmit=e=>{e.preventDefault();let o={id:tradeId.value||crypto.randomUUID(),portfolioId:activeP().id,date:tradeDate.value,symbol:tradeSymbol.value.trim().toUpperCase(),side:tradeSide.value,session:tradeSession.value,setup:tradeSetup.value.trim(),tf:tradeTf.value,grade:tradeGrade.value,checklistScore:n("tradeChecklistScore"),entry:n("tradeEntry"),exit:n("tradeExit"),sl:n("tradeSL"),tp:n("tradeTP"),lot:n("tradeLot"),risk:n("tradeRisk"),pnl:n("tradePnl"),r:n("tradeR"),tags:[...selectedTags],mistakes:[...selectedMistakes],note:tradeNote.value,before:editImages.before,after:editImages.after};let i=state.trades.findIndex(t=>t.id===o.id);i>=0?state.trades[i]=o:state.trades.push(o);tradeModal.classList.remove("open");persist()};
 window.editTrade=id=>openTrade(state.trades.find(t=>t.id===id));window.deleteTrade=id=>{if(confirm("ลบ Trade นี้?")){state.trades=state.trades.filter(t=>t.id!==id);persist()}};
 
 exportBtn.onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v4-backup.json";a.click();URL.revokeObjectURL(a.href)};
 
 exportCsvBtn.onclick=()=>{
-  const rows=[["date","symbol","side","session","setup","grade","timeframe","entry","exit","sl","tp","lot","risk_pct","pnl","r","checklist_score","tags","note"]];
-  allTrades().forEach(t=>rows.push([t.date,t.symbol,t.side,t.session||"",t.setup||"",t.grade||"",t.tf||"",t.entry??"",t.exit??"",t.sl??"",t.tp??"",t.lot??"",t.risk??"",t.pnl??"",t.r??"",t.checklistScore??100,(t.tags||[]).join("|"),t.note||""]));
+  const rows=[["date","symbol","side","session","setup","grade","timeframe","entry","exit","sl","tp","lot","risk_pct","pnl","r","checklist_score","tags","mistakes","note"]];
+  allTrades().forEach(t=>rows.push([t.date,t.symbol,t.side,t.session||"",t.setup||"",t.grade||"",t.tf||"",t.entry??"",t.exit??"",t.sl??"",t.tp??"",t.lot??"",t.risk??"",t.pnl??"",t.r??"",t.checklistScore??100,(t.tags||[]).join("|"),(t.mistakes||[]).join("|"),t.note||""]));
   const csv=rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v5-trades.csv";a.click();URL.revokeObjectURL(a.href)
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v6-trades.csv";a.click();URL.revokeObjectURL(a.href)
 };
 
 importInput.onchange=()=>{let f=importInput.files?.[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.portfolios||!d.trades)throw 0;state=d;persist();alert("Import สำเร็จ")}catch{alert("ไฟล์ไม่ถูกต้อง")}};r.readAsText(f)};
@@ -406,7 +494,7 @@ async function pushCloud(){if(!sb||!sessionUser)return alert("Sign in ก่อ�
 async function pullCloud(){if(!sb||!sessionUser)return alert("Sign in ก่อน");let {data,error}=await sb.from("edgelog_data").select("payload").eq("user_id",sessionUser.id).maybeSingle();if(error)return alert(error.message);if(!data?.payload)return alert("ยังไม่มีข้อมูลบน Cloud");state=data.payload;persist();alert("Pull ลงเครื่องแล้ว")}
 pushCloudBtn.onclick=pushCloud;pullCloudBtn.onclick=pullCloud;cloudBtn.onclick=()=>showPage("settings");
 
-function renderAll(){renderPortfolio();renderDashboard();renderHistory();renderCalendar();renderAnalytics();renderRules();renderJournal();renderSettings()}
+function renderAll(){renderPortfolio();renderDashboard();renderHistory();renderCalendar();renderAnalytics();renderRules();renderReview();renderGallery();renderJournal();renderSettings()}
 window.addEventListener("resize",()=>{drawLine(equityCanvas,stats().curve);drawDaily(dailyCanvas,stats().ts)});
 calcRisk();calcRR();initSupabase();renderAll();
 </script>
