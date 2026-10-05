@@ -1,27 +1,32 @@
-# EdgeLog V9 Pro
+# EdgeLog V10 — AI Coach
 
-V9 Pro ต่อจาก V8.2 และย้ายข้อมูลเดิมให้อัตโนมัติ
+V10 ต่อจาก V9 และย้ายข้อมูล V9/V8/V7/V6/V5/V4/V3 เดิมให้อัตโนมัติ
 
-## ใหม่ใน V9
-- Dashboard โครงสร้างโปรขึ้น: Performance Calendar, Equity, Win/Loss Mix, Top Playbooks, Psychology, Discipline
-- Date presets: This week / This month / Last month / YTD
-- Custom date range
-- Supabase Cloud Setup Wizard
-- Account status บน top bar
-- Auto-sync หลังบันทึก/แก้ไข/ลบ Trade
-- Push / Pull แบบมีสถานะชัดเจน
-- ยังคง Edit/Delete Trade ที่แก้ใน V8.2
-- ใช้ข้อมูล V8/V7/V6/V5/V4/V3 ต่อได้
+## ใหม่
+- หน้า AI Coach
+- Review Latest Trade
+- Weekly Review
+- Mistake Audit
+- Playbook Review
+- Ask AI จากข้อมูล Journal
+- ส่งเฉพาะ context แบบย่อ ไม่ส่งรูป Before/After
+- OpenAI API key อยู่ใน Supabase Edge Function Secret เท่านั้น
+- ต้อง Sign in Supabase ก่อนใช้ AI
+- V8.2 Edit/Delete Trade ยังอยู่
+- V9 Cloud + Auto-sync ยังอยู่
 
-## GitHub
-อัปโหลด `index.html` ไปทับไฟล์เดิม แล้ว Commit directly to main
+## ไฟล์
+- `index.html` — อัปทับเว็บ GitHub Pages เดิม
+- `supabase-schema.sql` — schema Cloud เดิม
+- `supabase/functions/ai-coach/index.ts` — Edge Function
+- `supabase/functions/.env.example` — ตัวอย่างชื่อ secrets เท่านั้น
 
-## Cloud
-1. สร้าง Supabase project
-2. รัน `supabase-schema.sql`
-3. เปิด EdgeLog > Settings
-4. ใส่ Project URL และ Anon Key
-5. Create account หรือ Sign in
-6. เปิด Auto-sync
+## ตั้ง AI Coach
+1. มี Supabase project + Login ใช้งานได้ก่อน
+2. สร้าง/deploy Edge Function ชื่อ `ai-coach`
+3. Supabase Dashboard → Edge Functions → Secrets
+4. เพิ่ม `OPENAI_API_KEY` เป็น OpenAI API key ของคุณ
+5. (optional) เพิ่ม `OPENAI_MODEL` เช่น `gpt-6-luna`
+6. เปิด EdgeLog → Settings → Test AI Coach
 
-> เพื่อป้องกันข้อมูลหาย ควร Export JSON backup ก่อน Pull จาก Cloud
+ห้ามใส่ OpenAI API key ใน `index.html`, GitHub repo หรือ localStorage.

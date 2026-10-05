@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080d12">
-<title>EdgeLog V9 Pro</title>
+<title>EdgeLog V10 AI Coach</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -45,20 +45,29 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 .cloud-wizard{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}.wizard-step{border:1px solid var(--line);border-radius:13px;padding:10px;background:#091018;display:flex;gap:8px;align-items:center;font-size:11px;color:var(--muted)}.wizard-step b{display:grid;place-items:center;width:24px;height:24px;border-radius:999px;background:#1b2810;color:var(--lime)}
 .autosync-row{display:flex;gap:8px;align-items:center;margin-top:12px;padding:10px;border:1px solid var(--line);border-radius:13px;background:#091018;font-size:12px;color:var(--muted)}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.gallery-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}.gallery-card img{width:100%;height:180px;object-fit:cover;display:block}.gallery-meta{padding:12px}.gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#000}.gallery-pair img{height:150px}.lesson{padding:11px 0;border-bottom:1px solid var(--line)}.lesson:last-child{border-bottom:0}.playbook-card{padding:14px;border:1px solid var(--line);border-radius:16px;background:#091018;margin-bottom:10px}.playbook-card h3{margin:0 0 6px;font-size:16px}.stars{color:var(--amber)}.heatmap{display:grid;grid-template-columns:90px repeat(4,1fr);gap:6px;align-items:stretch}.heat-head,.heat-label{font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:center;min-height:38px}.heat-cell{border:1px solid var(--line);border-radius:11px;padding:8px;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.heat-cell.posh{background:rgba(73,227,157,.12)}.heat-cell.negh{background:rgba(255,110,124,.12)}.healthbar{height:10px;background:#17212c;border-radius:999px;overflow:hidden;margin-top:7px}.healthbar>span{display:block;height:100%;background:var(--lime)}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.detail-box{border:1px solid var(--line);border-radius:14px;padding:12px;background:#091018}.detail-img{width:100%;max-height:280px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
+
+.ai-quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.ai-action{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#111b25,#0a1118);color:var(--text);padding:16px;text-align:left;min-height:118px}
+.ai-action b{display:block;font-size:14px;margin-bottom:8px}.ai-action span{font-size:11px;color:var(--muted);line-height:1.5}.ai-action:active{transform:scale(.99)}
+.ai-response{min-height:170px;white-space:pre-wrap;line-height:1.68;color:#dce5ef}.ai-response h3{margin:0 0 8px}.ai-response.loading{opacity:.7}
+.ai-context{display:grid;gap:8px}.ai-context-item{border:1px solid var(--line);border-radius:13px;padding:10px;background:#091018}.ai-question{min-height:135px}
+.ai-spinner{display:inline-block;width:14px;height:14px;border:2px solid #40505f;border-top-color:var(--lime);border-radius:50%;animation:spin .8s linear infinite;margin-right:7px;vertical-align:-2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:900px){
+@media(max-width:900px){.ai-quick-grid{grid-template-columns:1fr 1fr}
  .layout{display:block}.side{display:none}main{padding:19px 13px}.cards{grid-template-columns:repeat(2,1fr)}.grid2,.grid3,.tools{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar .wide{grid-column:1/-1}.trade{grid-template-columns:1fr auto auto}.trade .hide-sm{display:none}
  .mobilebar{display:grid;grid-template-columns:repeat(7,1fr);position:fixed;left:0;right:0;bottom:0;z-index:50;background:#080d12;border-top:1px solid var(--line);padding:7px 2px max(7px,env(safe-area-inset-bottom))}
  .mobilebar button{border:0;background:transparent;color:var(--muted);font-size:10px;padding:8px 1px}.mobilebar button.active{color:var(--lime);font-weight:900}
 }
 @media(max-width:700px){.cloud-wizard{grid-template-columns:1fr 1fr}.date-range .input{min-width:120px;flex:1}.mix-wrap{justify-content:flex-start}}
-@media(max-width:560px){.heatmap{grid-template-columns:72px repeat(4,1fr);font-size:10px}.detail-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.span2{grid-column:auto}.hero{align-items:start;flex-direction:column}.value{font-size:30px}.calendar{gap:3px}.day{min-height:58px;padding:5px}.metric-row{grid-template-columns:1fr auto}}
+@media(max-width:560px){.ai-quick-grid{grid-template-columns:1fr}.heatmap{grid-template-columns:72px repeat(4,1fr);font-size:10px}.detail-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.span2{grid-column:auto}.hero{align-items:start;flex-direction:column}.value{font-size:30px}.calendar{gap:3px}.day{min-height:58px;padding:5px}.metric-row{grid-template-columns:1fr auto}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-  <div class="brand">Edge<b>Log</b> V9 <span style="font-size:11px;color:var(--muted)">PRO</span></div>
+  <div class="brand">Edge<b>Log</b> V10 <span style="font-size:11px;color:var(--muted)">AI COACH</span></div>
   <div class="top-actions">
     <button class="btn account-pill" id="accountBtn">Trader</button>
     <button class="btn" id="cloudBtn">☁ <span id="topCloudLabel">Local</span></button>
@@ -79,9 +88,10 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <button data-page="insights">Insight Lab</button>
     <button data-page="gallery">Screenshot Gallery</button>
     <button data-page="journal">Journal</button>
+    <button data-page="ai">AI Coach</button>
     <button data-page="settings">Settings</button>
   </nav>
-  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V9 Pro · Local + Supabase Cloud</div></div>
+  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V10 · Cloud + AI Coach</div></div>
 </aside>
 <main>
 
@@ -329,6 +339,58 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
   <div class="card"><div class="formgrid"><div class="field"><label>วันที่</label><input class="input" type="date" id="journalDate"></div><div class="field"><label>Mood</label><select class="select" id="journalMood"><option>Focused</option><option>Calm</option><option>FOMO</option><option>Revenge</option><option>Tired</option></select></div><div class="field span2"><label>Pre-market plan</label><textarea class="textarea" id="journalPlan"></textarea></div><div class="field span2"><label>Post-market review</label><textarea class="textarea" id="journalReview"></textarea></div></div><button class="primary" id="saveJournal" style="margin-top:11px">Save Journal</button></div>
 </section>
 
+
+<section class="page" id="page-ai">
+  <div class="hero">
+    <div><div class="eyebrow">AI COACH</div><h1>Journal Review Assistant</h1>
+      <p>ให้ AI ช่วยสรุปข้อมูล Journal, วินัย และข้อผิดพลาดซ้ำ — ไม่ใช้เพื่อส่งสัญญาณ Buy/Sell</p>
+    </div>
+    <span class="tag" id="aiConnectionTag">Cloud sign-in required</span>
+  </div>
+
+  <div class="ai-quick-grid">
+    <button class="ai-action" onclick="runAiCoach('latest_trade')">
+      <b>Review Latest Trade</b><span>ทบทวนไม้ล่าสุดจาก Setup, R, Checklist, Mistakes และ Note</span>
+    </button>
+    <button class="ai-action" onclick="runAiCoach('weekly_review')">
+      <b>Weekly Review</b><span>สรุป 7 วันล่าสุดว่ากระบวนการไหนดี/ควรแก้ตรงไหน</span>
+    </button>
+    <button class="ai-action" onclick="runAiCoach('mistake_audit')">
+      <b>Mistake Audit</b><span>หา mistake / rule violation ที่เกิดซ้ำจาก Journal</span>
+    </button>
+    <button class="ai-action" onclick="runAiCoach('playbook_review')">
+      <b>Playbook Review</b><span>เปรียบเทียบ Setup ที่บันทึกไว้ โดยเน้นความสม่ำเสมอ</span>
+    </button>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="section-title"><h2>Ask AI</h2><span class="tag">journal context</span></div>
+      <textarea class="textarea ai-question" id="aiQuestion" placeholder="เช่น เดือนนี้ผมผิดกฎอะไรบ่อยสุด? หรือ Trade ล่าสุดผมควรทบทวนกระบวนการตรงไหน?"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button class="primary" id="askAiBtn">Ask AI</button>
+        <button class="btn" id="clearAiBtn">Clear</button>
+      </div>
+      <div class="small muted" style="margin-top:10px">AI จะได้รับเฉพาะข้อมูล Journal แบบย่อ ไม่ส่งรูป Before/After และไม่ส่ง API key ไปที่ browser</div>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><h2>Context Preview</h2><span class="tag" id="aiContextCount">0 trades</span></div>
+      <div id="aiContextPreview" class="ai-context"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="section-title">
+      <h2>AI Response</h2>
+      <span class="tag" id="aiStatus">Ready</span>
+    </div>
+    <div id="aiResponse" class="ai-response">
+      <div class="empty">เลือก Review ด้านบน หรือพิมพ์คำถามเพื่อเริ่ม</div>
+    </div>
+  </div>
+</section>
+
 <section class="page" id="page-settings">
   <div class="hero"><div><div class="eyebrow">SETTINGS</div><h1>Portfolio & Cloud</h1><p>จัดการพอร์ต Backup และ Supabase</p></div></div>
   <div class="grid2">
@@ -354,12 +416,30 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <div class="small muted" id="syncStatus" style="margin-top:8px">ยังไม่มีการ Sync</div>
     <div class="small muted" id="authStatus" style="margin-top:8px">Not connected</div>
   </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="section-title"><h2>OpenAI AI Coach</h2><span class="tag">server-side only</span></div>
+    <div class="cloud-wizard">
+      <div class="wizard-step"><b>1</b><span>สร้าง OpenAI API key</span></div>
+      <div class="wizard-step"><b>2</b><span>Supabase → Edge Function Secrets</span></div>
+      <div class="wizard-step"><b>3</b><span>ตั้งชื่อ OPENAI_API_KEY</span></div>
+      <div class="wizard-step"><b>4</b><span>Deploy function ai-coach</span></div>
+    </div>
+    <div class="small muted">
+      ห้ามใส่ OpenAI API key ในช่องเว็บหรือใน GitHub. ตัวเว็บเรียก Supabase Edge Function แล้ว Function ค่อยเรียก OpenAI.
+    </div>
+    <div class="row" style="margin-top:11px">
+      <button class="btn" id="testAiBtn">Test AI Coach</button>
+      <span class="small muted" id="aiSetupStatus">ยังไม่ได้ทดสอบ</span>
+    </div>
+  </div>
+
 </section>
 </main>
 </div>
 
 <nav class="mobilebar">
-  <button class="active" data-page="dashboard">Home</button><button data-page="history">Trades</button><button data-page="analytics">Stats</button><button data-page="insights">Insights</button><button data-page="playbook">Playbook</button><button data-page="journal">Journal</button><button data-page="settings">Settings</button>
+  <button class="active" data-page="dashboard">Home</button><button data-page="history">Trades</button><button data-page="analytics">Stats</button><button data-page="ai">AI</button><button data-page="playbook">Playbook</button><button data-page="journal">Journal</button><button data-page="settings">Settings</button>
 </nav>
 </div>
 
@@ -396,7 +476,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </div></div>
 
 <script>
-const K9="edgelog_v9_state",K8="edgelog_v8_state",K7="edgelog_v7_state",K6="edgelog_v6_state",K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v9_cloud",AUTOSYNCKEY="edgelog_v9_autosync";
+const K10="edgelog_v10_state",K9="edgelog_v9_state",K8="edgelog_v8_state",K7="edgelog_v7_state",K6="edgelog_v6_state",K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v10_cloud",AUTOSYNCKEY="edgelog_v10_autosync";
 const TAGS=["FVG","OB","Liquidity","Sweep","BOS","CHOCH","MSS","Breaker","OTE","SMT","PD Array","Killzone"];
 let selectedTags=new Set(), editImages={before:"",after:""}, currentMonth=new Date(), currentPeriod="all", customFrom="", customTo="", sb=null, sessionUser=null, currentDetailTradeId=null, autoSyncTimer=null;
 const RULEKEY="edgelog_v6_rules";
@@ -410,11 +490,11 @@ const CHECKS=["HTF bias ชัดเจน","มี Liquidity target","มี En
 const $=id=>document.getElementById(id);
 const def=()=>({portfolios:[{id:crypto.randomUUID(),name:"Main Portfolio",capital:1000}],activePortfolioId:null,trades:[],journals:{}});
 function load(){
-  for(const key of [K9,K8,K7,K6,K5,K4,K3]){
+  for(const key of [K10,K9,K8,K7,K6,K5,K4,K3]){
     try{
       const x=JSON.parse(localStorage.getItem(key));
       if(x?.portfolios){
-        if(key!==K9)localStorage.setItem(K9,JSON.stringify(x));
+        if(key!==K10)localStorage.setItem(K10,JSON.stringify(x));
         return x
       }
     }catch{}
@@ -422,7 +502,7 @@ function load(){
   return def()
 }
 let state=load();if(!state.activePortfolioId)state.activePortfolioId=state.portfolios[0]?.id||null;
-function persist(){localStorage.setItem(K9,JSON.stringify(state));renderAll();scheduleAutoSync()}
+function persist(){localStorage.setItem(K10,JSON.stringify(state));renderAll();scheduleAutoSync()}
 function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function money(n){return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number(n||0))}
 function pct(n){return (Number(n||0)*100).toFixed(1)+"%"}
@@ -446,14 +526,14 @@ function stats(ts=filteredTrades()){
 function showPage(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+name));
   document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
-  if(name==="calendar")renderCalendar();if(name==="analytics")renderAnalytics();if(name==="review")renderReview();if(name==="insights")renderInsights();if(name==="playbook")renderPlaybook();if(name==="gallery")renderGallery();if(name==="settings")renderSettings();window.scrollTo({top:0,behavior:"smooth"})
+  if(name==="calendar")renderCalendar();if(name==="analytics")renderAnalytics();if(name==="review")renderReview();if(name==="insights")renderInsights();if(name==="playbook")renderPlaybook();if(name==="gallery")renderGallery();if(name==="ai")renderAiContextPreview();if(name==="settings")renderSettings();window.scrollTo({top:0,behavior:"smooth"})
 }
 document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>showPage(b.dataset.goto));
 
 function renderPortfolio(){
   portfolioSelect.innerHTML=state.portfolios.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");portfolioSelect.value=state.activePortfolioId||"";
-  portfolioSelect.onchange=()=>{state.activePortfolioId=portfolioSelect.value;localStorage.setItem(K9,JSON.stringify(state));renderAll();scheduleAutoSync()}
+  portfolioSelect.onchange=()=>{state.activePortfolioId=portfolioSelect.value;localStorage.setItem(K10,JSON.stringify(state));renderAll();scheduleAutoSync()}
 }
 document.querySelectorAll("[data-period]").forEach(b=>b.onclick=()=>{customFrom="";customTo="";rangeFrom.value="";rangeTo.value="";currentPeriod=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.classList.toggle("active",x===b));renderDashboard()});
 
@@ -832,13 +912,13 @@ window.deleteCurrentTrade=()=>{
   if(currentDetailTradeId)removeTrade(currentDetailTradeId)
 };
 
-exportBtn.onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v9-backup.json";a.click();URL.revokeObjectURL(a.href)};
+exportBtn.onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v10-backup.json";a.click();URL.revokeObjectURL(a.href)};
 
 exportCsvBtn.onclick=()=>{
   const rows=[["date","time","symbol","side","session","setup","grade","favorite","timeframe","entry","exit","sl","tp","lot","risk_pct","pnl","r","checklist_score","tags","mistakes","note"]];
   allTrades().forEach(t=>rows.push([t.date,t.time||"",t.symbol,t.side,t.session||"",t.setup||"",t.grade||"",t.favorite?1:0,t.tf||"",t.entry??"",t.exit??"",t.sl??"",t.tp??"",t.lot??"",t.risk??"",t.pnl??"",t.r??"",t.checklistScore??100,(t.tags||[]).join("|"),(t.mistakes||[]).join("|"),t.note||""]));
   const csv=rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v9-trades.csv";a.click();URL.revokeObjectURL(a.href)
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v10-trades.csv";a.click();URL.revokeObjectURL(a.href)
 };
 
 importInput.onchange=()=>{let f=importInput.files?.[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.portfolios||!d.trades)throw 0;state=d;persist();alert("Import สำเร็จ")}catch{alert("ไฟล์ไม่ถูกต้อง")}};r.readAsText(f)};
@@ -856,7 +936,7 @@ function cloudCfg(){return JSON.parse(localStorage.getItem(CK)||"{}")}
 function setCloud(ok,text){
   cloudDot.classList.toggle("ok",ok);cloudText.textContent=text;authStatus.textContent=text;
   topCloudLabel.textContent=ok?"Synced":"Local";cloudModeTag.textContent=ok?"Cloud connected":"Local mode";
-  accountBtn.textContent=sessionUser?.email||"Trader"
+  accountBtn.textContent=sessionUser?.email||"Trader";if(document.getElementById("aiConnectionTag"))aiConnectionTag.textContent=ok?"Cloud signed in · AI ready":"Cloud sign-in required"
 }
 function initSupabase(){
   autoSyncToggle.checked=autoSyncEnabled();
@@ -893,13 +973,104 @@ async function pullCloud(){
   let {data,error}=await sb.from("edgelog_data").select("payload").eq("user_id",sessionUser.id).maybeSingle();
   if(error){syncStatus.textContent="Pull error: "+error.message;return alert(error.message)}
   if(!data?.payload)return alert("ยังไม่มีข้อมูลบน Cloud");
-  state=data.payload;localStorage.setItem(K9,JSON.stringify(state));renderAll();
+  state=data.payload;localStorage.setItem(K10,JSON.stringify(state));renderAll();
   syncStatus.textContent="Pull สำเร็จ "+new Date().toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"});
   alert("Pull ลงเครื่องแล้ว")
 }
 pushCloudBtn.onclick=()=>pushCloud(false);pullCloudBtn.onclick=pullCloud;cloudBtn.onclick=()=>showPage("settings");
 
-function renderAll(){renderPortfolio();renderDashboard();renderHistory();renderCalendar();renderAnalytics();renderRules();renderReview();renderInsights();renderPlaybook();renderGallery();renderJournal();renderSettings()}
+
+function compactTrade(t){
+  return {
+    date:t.date||"", time:t.time||"", symbol:t.symbol||"", side:t.side||"",
+    session:t.session||"", setup:t.setup||"", grade:t.grade||"", timeframe:t.tf||"",
+    risk_pct:t.risk===""?null:Number(t.risk||0), pnl:Number(t.pnl||0),
+    r:t.r===""?null:Number(t.r||0), checklist:Number(t.checklistScore??100),
+    tags:(t.tags||[]).slice(0,8), mistakes:(t.mistakes||[]).slice(0,8),
+    violations:getViolations(t).slice(0,8), note:String(t.note||"").slice(0,500)
+  }
+}
+function buildAiContext(mode="ask"){
+  const trades=[...allTrades()].reverse().slice(0,50).map(compactTrade);
+  const recent7=trades.filter(t=>{
+    const d=new Date(t.date+"T00:00:00"),cut=new Date();cut.setHours(0,0,0,0);cut.setDate(cut.getDate()-6);return d>=cut
+  });
+  const journalEntries=Object.entries(state.journals||{}).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,14).map(([date,j])=>({
+    date,mood:j.mood||"",plan:String(j.plan||j.text||"").slice(0,400),review:String(j.review||"").slice(0,500)
+  }));
+  const playbook=getPlaybook().slice(0,15).map(x=>({name:x.name,grade:x.grade,session:x.session,minRR:x.minRR,confluence:x.confluence,rules:x.rules,invalid:x.invalid}));
+  const s=stats(allTrades());
+  return {
+    mode,
+    portfolio:{name:activeP()?.name||"",starting_capital:Number(activeP()?.capital||0)},
+    summary:{
+      total_trades:s.total, net_pnl:s.pnl, win_rate:Number((s.wr*100).toFixed(1)),
+      profit_factor:s.pf===Infinity?null:Number(s.pf.toFixed(2)), avg_r:Number(s.avgR.toFixed(2)),
+      max_drawdown_pct:Number((s.maxdd*100).toFixed(2)), discipline:Number(s.discipline.toFixed(1)),
+      consistency:Number(s.consistency.toFixed(1))
+    },
+    latest_trade:trades[0]||null,
+    recent_7d:recent7.slice(0,25),
+    recent_trades:trades,
+    journals:journalEntries,
+    playbook
+  }
+}
+function renderAiContextPreview(){
+  const ctx=buildAiContext();
+  aiContextCount.textContent=`${ctx.recent_trades.length} trades`;
+  const latest=ctx.latest_trade;
+  const items=[
+    latest?`Latest: ${latest.symbol} · ${latest.setup||"No setup"} · ${latest.pnl>=0?"+":""}${money(latest.pnl)}`:"Latest: none",
+    `Journal entries: ${ctx.journals.length}`,
+    `Playbook setups: ${ctx.playbook.length}`,
+    `Discipline: ${ctx.summary.discipline}% · Consistency: ${ctx.summary.consistency}%`
+  ];
+  aiContextPreview.innerHTML=items.map(x=>`<div class="ai-context-item small">${esc(x)}</div>`).join("")
+}
+function aiReady(){
+  return Boolean(sb&&sessionUser)
+}
+async function invokeAiCoach(mode,question=""){
+  if(!aiReady()){
+    aiConnectionTag.textContent="Sign in Supabase first";
+    showPage("settings");
+    alert("ต้อง Sign in Supabase ก่อนใช้ AI Coach");
+    return
+  }
+  aiStatus.innerHTML='<span class="ai-spinner"></span>Analyzing';
+  aiResponse.classList.add("loading");
+  aiResponse.textContent="กำลังวิเคราะห์ Journal…";
+  const context=buildAiContext(mode);
+  try{
+    const {data,error}=await sb.functions.invoke("ai-coach",{body:{mode,question,context}});
+    if(error)throw error;
+    if(!data?.answer)throw new Error(data?.error||"AI response empty");
+    aiResponse.classList.remove("loading");
+    aiResponse.textContent=data.answer;
+    aiStatus.textContent="Done";
+    aiConnectionTag.textContent="AI connected"
+  }catch(e){
+    aiResponse.classList.remove("loading");
+    aiResponse.textContent="AI Coach error: "+(e?.message||String(e))+"\n\nเช็กว่า deploy Edge Function ชื่อ ai-coach และตั้ง OPENAI_API_KEY แล้ว";
+    aiStatus.textContent="Error";
+    aiConnectionTag.textContent="Check setup"
+  }
+}
+window.runAiCoach=(mode)=>invokeAiCoach(mode,"");
+askAiBtn.onclick=()=>{const q=aiQuestion.value.trim();if(!q)return alert("พิมพ์คำถามก่อน");invokeAiCoach("ask",q)};
+clearAiBtn.onclick=()=>{aiQuestion.value="";aiResponse.innerHTML='<div class="empty">เลือก Review ด้านบน หรือพิมพ์คำถามเพื่อเริ่ม</div>';aiStatus.textContent="Ready"};
+testAiBtn.onclick=async()=>{
+  aiSetupStatus.textContent="กำลังทดสอบ…";
+  if(!aiReady()){aiSetupStatus.textContent="Sign in Supabase ก่อน";return}
+  try{
+    const {data,error}=await sb.functions.invoke("ai-coach",{body:{mode:"health",question:"",context:{}}});
+    if(error)throw error;
+    aiSetupStatus.textContent=data?.answer?"AI Coach พร้อมใช้งาน":"Function ตอบกลับ แต่ไม่มี answer"
+  }catch(e){aiSetupStatus.textContent="Error: "+(e?.message||String(e))}
+};
+
+function renderAll(){renderPortfolio();renderDashboard();renderHistory();renderCalendar();renderAnalytics();renderRules();renderReview();renderInsights();renderPlaybook();renderGallery();renderJournal();renderSettings();renderAiContextPreview()}
 window.addEventListener("resize",()=>{drawLine(equityCanvas,stats().curve);drawDaily(dailyCanvas,stats().ts)});
 calcRisk();calcRR();initSupabase();renderAll();
 </script>

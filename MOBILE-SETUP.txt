@@ -1,0 +1,16 @@
+EdgeLog V10 — ขั้นตอนบนมือถือ
+
+A) GitHub Pages
+1. อัปโหลด index.html ทับไฟล์เดิม
+2. Commit directly to main
+3. ไม่ต้องตั้ง GitHub Pages ใหม่
+
+B) Supabase AI Function
+1. เข้า Supabase Dashboard
+2. Edge Functions → สร้าง function ชื่อ ai-coach
+3. วางโค้ดจาก supabase/functions/ai-coach/index.ts
+4. Deploy
+5. Edge Functions → Secrets → เพิ่ม OPENAI_API_KEY
+6. กลับ EdgeLog → Sign in → AI Coach → ทดสอบ
+
+หมายเหตุ: ถ้า Dashboard ของ Supabase ไม่มีตัวแก้โค้ด Function ในบัญชี/หน้าจอของคุณ ให้ใช้ Supabase CLI บนคอมพิวเตอร์แทน
