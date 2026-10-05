@@ -1,29 +1,20 @@
-# EdgeLog V4
+# EdgeLog V5
 
-ไฟล์เดียวสำหรับ GitHub Pages และย้ายข้อมูล V3 เดิมให้อัตโนมัติ
+V5 ต่อจาก V4 และย้ายข้อมูลเดิมให้อัตโนมัติ
 
-## เพิ่มใน V4
-- Dashboard 7D / 30D / 90D / All
-- Balance, Net P&L, Win Rate, Profit Factor, Avg R, Max Drawdown
-- Equity Curve + Daily P&L
-- Weekly Summary
-- ICT/SMC analytics แยก Setup / Session / Direction / Tags
-- Risk Calculator
-- RR Calculator
-- Trade History / Calendar / Journal
-- Before / After screenshots
-- Multi-portfolio
-- JSON backup
-- Optional Supabase Auth + Cloud Sync
+## เพิ่มใหม่
+- Pre-trade Checklist
+- Setup Grade A/B/C
+- Checklist Score ต่อ Trade
+- Daily Loss Limit / Max Risk / Max Trades per Day / Max Losing Streak
+- Discipline Score
+- Expectancy
+- Win/Loss Streak
+- Monthly Summary
+- Export CSV
+- ใช้ข้อมูล V4 / V3 เดิมต่อได้
 
-## อัปเดต GitHub Pages
+## อัปเดต GitHub
 อัปโหลด `index.html` ไปแทนไฟล์เดิมใน root ของ repo แล้ว Commit to main
 
-## เปิด Supabase
-1. สร้าง Supabase project
-2. รัน `supabase-schema.sql` ใน SQL Editor
-3. ใน EdgeLog > Settings ใส่ Project URL และ Anon Key
-4. Create account / Sign in
-5. Push หรือ Pull ข้อมูล Cloud
-
-> Risk Calculator เป็นค่าประมาณ ควรตรวจ contract size/specification ของ symbol กับโบรกเกอร์ก่อนใช้
+> หมายเหตุ: Risk/discipline tools เป็นเครื่องมือบันทึกและช่วยเตือน ไม่ใช่คำแนะนำให้เพิ่มความเสี่ยงในการเทรด

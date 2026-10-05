@@ -1,4 +1,4 @@
--- EdgeLog V4 Supabase schema
+-- EdgeLog V5 Supabase schema
 create table if not exists public.edgelog_data (
   user_id uuid primary key references auth.users(id) on delete cascade,
   payload jsonb not null default '{}'::jsonb,
