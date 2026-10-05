@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080d12">
-<title>EdgeLog V6</title>
+<title>EdgeLog V7</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -37,7 +37,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.dow{text-align:center;color:var(--muted);font-size:10px;padding:5px}.day{min-height:72px;border:1px solid var(--line);border-radius:11px;padding:7px;background:#091018}.day.blank{opacity:.25}.day .n{font-size:11px;color:var(--muted)}.day .p{font-size:11px;font-weight:900;margin-top:8px}
 .metric-list{display:grid;gap:8px}.metric-row{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:13px;background:#091018}.metric-row b{font-size:13px}.pill{font-size:10px;padding:5px 7px;border-radius:999px;background:#172230;color:#b8c6d7}
 .tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}.resultbox{margin-top:12px;padding:14px;border-radius:15px;background:#091018;border:1px solid var(--line)}.resultbox strong{font-size:24px;display:block;margin-top:3px}
-.hr{height:1px;background:var(--line);margin:17px 0}.backup{display:flex;gap:8px;flex-wrap:wrap}.mobilebar{display:none}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.gallery-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}.gallery-card img{width:100%;height:180px;object-fit:cover;display:block}.gallery-meta{padding:12px}.gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#000}.gallery-pair img{height:150px}.lesson{padding:11px 0;border-bottom:1px solid var(--line)}.lesson:last-child{border-bottom:0}
+.hr{height:1px;background:var(--line);margin:17px 0}.backup{display:flex;gap:8px;flex-wrap:wrap}.mobilebar{display:none}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.gallery-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}.gallery-card img{width:100%;height:180px;object-fit:cover;display:block}.gallery-meta{padding:12px}.gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#000}.gallery-pair img{height:150px}.lesson{padding:11px 0;border-bottom:1px solid var(--line)}.lesson:last-child{border-bottom:0}.playbook-card{padding:14px;border:1px solid var(--line);border-radius:16px;background:#091018;margin-bottom:10px}.playbook-card h3{margin:0 0 6px;font-size:16px}.stars{color:var(--amber)}
 @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:900px){
  .layout{display:block}.side{display:none}main{padding:19px 13px}.cards{grid-template-columns:repeat(2,1fr)}.grid2,.grid3,.tools{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar .wide{grid-column:1/-1}.trade{grid-template-columns:1fr auto auto}.trade .hide-sm{display:none}
@@ -49,7 +49,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="brand">Edge<b>Log</b> V6</div><div class="top-actions"><button class="btn" id="cloudBtn">☁ Cloud</button><button class="primary" id="newTradeBtn">+ New Trade</button></div></header>
+<header class="top"><div class="brand">Edge<b>Log</b> V7</div><div class="top-actions"><button class="btn" id="cloudBtn">☁ Cloud</button><button class="primary" id="newTradeBtn">+ New Trade</button></div></header>
 <div class="layout">
 <aside class="side">
   <nav class="nav">
@@ -60,11 +60,12 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <button data-page="tools">Risk & RR Tools</button>
     <button data-page="rules">Rules & Discipline</button>
     <button data-page="review">Review Center</button>
+    <button data-page="playbook">Setup Playbook</button>
     <button data-page="gallery">Screenshot Gallery</button>
     <button data-page="journal">Journal</button>
     <button data-page="settings">Settings</button>
   </nav>
-  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V6 ใช้ Local ได้ทันที และต่อ Supabase ได้ภายหลัง</div></div>
+  <div class="cloud"><div class="status"><span class="dot" id="cloudDot"></span><span id="cloudText">Local mode</span></div><div class="small muted" style="margin-top:7px">V7 ใช้ Local ได้ทันที และต่อ Supabase ได้ภายหลัง</div></div>
 </aside>
 <main>
 
@@ -81,10 +82,18 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <div class="card"><div class="label">Expectancy</div><div class="value blue" id="expectancyV">$0</div><div class="sub">เฉลี่ยต่อ 1 trade</div></div>
     <div class="card"><div class="label">Discipline Score</div><div class="value" id="disciplineV">100</div><div class="sub">Checklist + rules</div></div>
     <div class="card"><div class="label">Consistency</div><div class="value" id="consistencyV">100</div><div class="sub">rule-following score</div></div>
+    <div class="card"><div class="label">A+ Setup Rate</div><div class="value" id="aPlusV">0%</div><div class="sub">Grade A trades</div></div>
   </div>
   <div class="grid2">
     <div class="card"><div class="section-title"><h2>Equity Curve</h2><span class="tag" id="periodTag">All time</span></div><canvas id="equityCanvas"></canvas></div>
     <div class="card"><div class="section-title"><h2>Daily P&L</h2><span class="tag">selected period</span></div><canvas id="dailyCanvas"></canvas></div>
+  </div>
+
+
+  <div class="grid3">
+    <div class="card"><div class="section-title"><h2>Best Trade</h2></div><div id="bestTradeCard"></div></div>
+    <div class="card"><div class="section-title"><h2>Worst Trade</h2></div><div id="worstTradeCard"></div></div>
+    <div class="card"><div class="section-title"><h2>Favorites</h2></div><div id="favoriteSummary"></div></div>
   </div>
 
   <div class="grid2">
@@ -117,6 +126,12 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
     <div class="card"><div class="section-title"><h2>By Direction</h2></div><div class="metric-list" id="directionStats"></div></div>
   </div>
   <div class="card" style="margin-top:12px"><div class="section-title"><h2>Confluence / Tags</h2></div><div class="metric-list" id="tagStats"></div></div>
+
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h2>By Grade</h2></div><div class="metric-list" id="gradeStats"></div></div>
+    <div class="card"><div class="section-title"><h2>By Day of Week</h2></div><div class="metric-list" id="dowStats"></div></div>
+  </div>
+
 </section>
 
 <section class="page" id="page-tools">
@@ -201,6 +216,34 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
   </div>
 </section>
 
+
+<section class="page" id="page-playbook">
+  <div class="hero"><div><div class="eyebrow">SYSTEM</div><h1>Setup Playbook</h1><p>เก็บรูปแบบ Setup ที่อนุญาตให้ตัวเองเทรด และนิยามเงื่อนไขให้ชัด</p></div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="section-title"><h2>Create Setup</h2></div>
+      <div class="formgrid">
+        <div class="field"><label>Setup Name</label><input class="input" id="pbName" placeholder="Sweep + MSS + FVG"></div>
+        <div class="field"><label>Grade</label><select class="select" id="pbGrade"><option>A</option><option>B</option><option>C</option></select></div>
+        <div class="field"><label>Preferred Session</label><select class="select" id="pbSession"><option>London</option><option>New York</option><option>Asia</option><option>Any</option></select></div>
+        <div class="field"><label>Minimum RR</label><input class="input" id="pbMinRR" type="number" step="0.1" value="1.5"></div>
+        <div class="field span2"><label>Required Confluences</label><input class="input" id="pbConfluence" placeholder="Liquidity Sweep, MSS, FVG, HTF Bias"></div>
+        <div class="field span2"><label>Entry Rules</label><textarea class="textarea" id="pbRules" placeholder="อธิบายเงื่อนไขเข้าเทรดให้ชัด"></textarea></div>
+        <div class="field span2"><label>Invalidation / No Trade Conditions</label><textarea class="textarea" id="pbInvalid" placeholder="เช่น ข่าวแรงใกล้เกินไป, RR ต่ำกว่าเกณฑ์"></textarea></div>
+      </div>
+      <button class="primary" id="savePlaybookBtn" style="margin-top:10px">Save Setup</button>
+    </div>
+    <div class="card">
+      <div class="section-title"><h2>Playbook Summary</h2></div>
+      <div id="playbookSummary"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="section-title"><h2>Saved Setups</h2></div>
+    <div id="playbookList"></div>
+  </div>
+</section>
+
 <section class="page" id="page-gallery">
   <div class="hero"><div><div class="eyebrow">SCREENSHOTS</div><h1>Chart Gallery</h1><p>รวมภาพ Before / After จาก Trade ที่บันทึกไว้</p></div></div>
   <div id="galleryGrid" class="gallery-grid"></div>
@@ -233,7 +276,7 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </div>
 
 <nav class="mobilebar">
-  <button class="active" data-page="dashboard">Home</button><button data-page="history">Trades</button><button data-page="analytics">Stats</button><button data-page="review">Review</button><button data-page="gallery">Gallery</button><button data-page="journal">Journal</button><button data-page="settings">Settings</button>
+  <button class="active" data-page="dashboard">Home</button><button data-page="history">Trades</button><button data-page="analytics">Stats</button><button data-page="review">Review</button><button data-page="playbook">Playbook</button><button data-page="journal">Journal</button><button data-page="settings">Settings</button>
 </nav>
 </div>
 
@@ -245,9 +288,11 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
       <div class="field"><label>Symbol</label><input class="input" id="tradeSymbol" value="XAUUSD" required></div>
       <div class="field"><label>Side</label><select class="select" id="tradeSide"><option>BUY</option><option>SELL</option></select></div>
       <div class="field"><label>Session</label><select class="select" id="tradeSession"><option>Asia</option><option>London</option><option>New York</option><option>Other</option></select></div>
-      <div class="field"><label>Setup</label><input class="input" id="tradeSetup" placeholder="Liquidity Sweep + FVG"></div>
+      <div class="field"><label>Setup</label><input class="input" id="tradeSetup" list="playbookDatalist" placeholder="Liquidity Sweep + FVG"><datalist id="playbookDatalist"></datalist></div>
       <div class="field"><label>Timeframe</label><select class="select" id="tradeTf"><option>M1</option><option>M5</option><option>M15</option><option>M30</option><option>H1</option><option>H4</option></select></div>
+      <div class="field"><label>Entry Time</label><input class="input" id="tradeTime" type="time"></div>
       <div class="field"><label>Setup Grade</label><select class="select" id="tradeGrade"><option>A</option><option>B</option><option>C</option></select></div>
+      <div class="field"><label>Favorite</label><select class="select" id="tradeFavorite"><option value="false">No</option><option value="true">★ Favorite</option></select></div>
       <div class="field"><label>Checklist Score</label><input class="input" id="tradeChecklistScore" type="number" min="0" max="100" step="1" value="100"></div>
       <div class="field"><label>Entry</label><input class="input" type="number" step="any" id="tradeEntry"></div>
       <div class="field"><label>Exit</label><input class="input" type="number" step="any" id="tradeExit"></div>
@@ -268,11 +313,12 @@ canvas{width:100%;height:230px;display:block}.list{display:grid;gap:8px}.trade{d
 </div></div>
 
 <script>
-const K6="edgelog_v6_state",K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v6_cloud";
+const K7="edgelog_v7_state",K6="edgelog_v6_state",K5="edgelog_v5_state",K4="edgelog_v4_state",K3="edgelog_v3_state",CK="edgelog_v7_cloud";
 const TAGS=["FVG","OB","Liquidity","Sweep","BOS","CHOCH","MSS","Breaker","OTE","SMT","PD Array","Killzone"];
 let selectedTags=new Set(), editImages={before:"",after:""}, currentMonth=new Date(), currentPeriod="all", sb=null, sessionUser=null;
 const RULEKEY="edgelog_v6_rules";
-const LESSONKEY="edgelog_v6_lessons";
+const LESSONKEY="edgelog_v7_lessons";
+const PLAYBOOKKEY="edgelog_v7_playbook";
 const MISTAKES=["FOMO","Revenge","Overtrade","Early Entry","Late Entry","Moved SL","No Confirmation","Against Bias","Oversized Risk","News Trade"];
 let selectedMistakes=new Set();
 const CHECKS=["HTF bias ชัดเจน","มี Liquidity target","มี Entry model ที่กำหนดไว้","RR ผ่านเกณฑ์","ไม่ไล่ราคา / ไม่ FOMO","ไม่มีข่าวแรงใกล้เกินไป"];
@@ -280,14 +326,15 @@ const CHECKS=["HTF bias ชัดเจน","มี Liquidity target","มี En
 const $=id=>document.getElementById(id);
 const def=()=>({portfolios:[{id:crypto.randomUUID(),name:"Main Portfolio",capital:1000}],activePortfolioId:null,trades:[],journals:{}});
 function load(){
-  try{let a=JSON.parse(localStorage.getItem(K6));if(a?.portfolios)return a}catch{}
-  try{let b=JSON.parse(localStorage.getItem(K5));if(b?.portfolios){localStorage.setItem(K6,JSON.stringify(b));return b}}catch{}
-  try{let c=JSON.parse(localStorage.getItem(K4));if(c?.portfolios){localStorage.setItem(K6,JSON.stringify(c));return c}}catch{}
-  try{let d=JSON.parse(localStorage.getItem(K3));if(d?.portfolios){localStorage.setItem(K6,JSON.stringify(d));return d}}catch{}
+  try{let a=JSON.parse(localStorage.getItem(K7));if(a?.portfolios)return a}catch{}
+  try{let b=JSON.parse(localStorage.getItem(K6));if(b?.portfolios){localStorage.setItem(K7,JSON.stringify(b));return b}}catch{}
+  try{let c=JSON.parse(localStorage.getItem(K5));if(c?.portfolios){localStorage.setItem(K7,JSON.stringify(c));return c}}catch{}
+  try{let d=JSON.parse(localStorage.getItem(K4));if(d?.portfolios){localStorage.setItem(K7,JSON.stringify(d));return d}}catch{}
+  try{let e=JSON.parse(localStorage.getItem(K3));if(e?.portfolios){localStorage.setItem(K7,JSON.stringify(e));return e}}catch{}
   return def()
 }
 let state=load();if(!state.activePortfolioId)state.activePortfolioId=state.portfolios[0]?.id||null;
-function persist(){localStorage.setItem(K6,JSON.stringify(state));renderAll()}
+function persist(){localStorage.setItem(K7,JSON.stringify(state));renderAll()}
 function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function money(n){return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number(n||0))}
 function pct(n){return (Number(n||0)*100).toFixed(1)+"%"}
@@ -302,28 +349,28 @@ function stats(ts=filteredTrades()){
   const cap=Number(activeP()?.capital||0);let eq=cap,peak=cap,maxdd=0,w=0,l=0,gw=0,gl=0,rs=[];
   const curve=[cap];ts.forEach(t=>{let p=Number(t.pnl||0);eq+=p;curve.push(eq);if(p>0){w++;gw+=p}else if(p<0){l++;gl+=Math.abs(p)}
     if(t.r!==""&&t.r!=null&&!Number.isNaN(Number(t.r)))rs.push(Number(t.r));peak=Math.max(peak,eq);if(peak>0)maxdd=Math.max(maxdd,(peak-eq)/peak)});
-  const expectancy=ts.length?(eq-cap)/ts.length:0;const discipline=ts.length?ts.reduce((a,t)=>a+Number(t.checklistScore??100),0)/ts.length:100;const violations=ts.reduce((a,t)=>a+getViolations(t).length,0);const consistency=ts.length?Math.max(0,100-(violations/ts.length)*20):100;return {cap,eq,pnl:eq-cap,total:ts.length,w,l,wr:(w+l)?w/(w+l):0,pf:gl?gw/gl:(gw?Infinity:0),avgR:rs.length?rs.reduce((a,b)=>a+b,0)/rs.length:0,maxdd,curve,ts,expectancy,discipline,consistency,violations}
+  const expectancy=ts.length?(eq-cap)/ts.length:0;const discipline=ts.length?ts.reduce((a,t)=>a+Number(t.checklistScore??100),0)/ts.length:100;const violations=ts.reduce((a,t)=>a+getViolations(t).length,0);const consistency=ts.length?Math.max(0,100-(violations/ts.length)*20):100;const aPlus=ts.length?ts.filter(t=>(t.grade||"A")==="A").length/ts.length:0;return {cap,eq,pnl:eq-cap,total:ts.length,w,l,wr:(w+l)?w/(w+l):0,pf:gl?gw/gl:(gw?Infinity:0),avgR:rs.length?rs.reduce((a,b)=>a+b,0)/rs.length:0,maxdd,curve,ts,expectancy,discipline,consistency,violations,aPlus}
 }
 function showPage(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+name));
   document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
-  if(name==="calendar")renderCalendar();if(name==="analytics")renderAnalytics();if(name==="review")renderReview();if(name==="gallery")renderGallery();if(name==="settings")renderSettings();window.scrollTo({top:0,behavior:"smooth"})
+  if(name==="calendar")renderCalendar();if(name==="analytics")renderAnalytics();if(name==="review")renderReview();if(name==="playbook")renderPlaybook();if(name==="gallery")renderGallery();if(name==="settings")renderSettings();window.scrollTo({top:0,behavior:"smooth"})
 }
 document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>showPage(b.dataset.goto));
 
 function renderPortfolio(){
   portfolioSelect.innerHTML=state.portfolios.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");portfolioSelect.value=state.activePortfolioId||"";
-  portfolioSelect.onchange=()=>{state.activePortfolioId=portfolioSelect.value;localStorage.setItem(K6,JSON.stringify(state));renderAll()}
+  portfolioSelect.onchange=()=>{state.activePortfolioId=portfolioSelect.value;localStorage.setItem(K7,JSON.stringify(state));renderAll()}
 }
 document.querySelectorAll("[data-period]").forEach(b=>b.onclick=()=>{currentPeriod=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.classList.toggle("active",x===b));renderDashboard()});
 
 function renderDashboard(){
   const s=stats();balanceV.textContent=money(s.eq);balanceS.textContent="Starting "+money(s.cap);
   pnlV.textContent=(s.pnl>=0?"+":"")+money(s.pnl);pnlV.className="value "+(s.pnl>=0?"green":"red");pnlS.textContent=s.total+" trades";
-  winV.textContent=pct(s.wr);winS.textContent=`${s.w} wins / ${s.l} losses`;pfV.textContent=s.pf===Infinity?"∞":s.pf.toFixed(2);avgRV.textContent=s.avgR.toFixed(2)+"R";ddV.textContent="-"+pct(s.maxdd);expectancyV.textContent=(s.expectancy>=0?"+":"")+money(s.expectancy);expectancyV.className="value "+(s.expectancy>=0?"green":"red");disciplineV.textContent=Math.round(s.discipline);disciplineV.className="value "+(s.discipline>=85?"green":s.discipline>=70?"blue":"red");consistencyV.textContent=Math.round(s.consistency);consistencyV.className="value "+(s.consistency>=85?"green":s.consistency>=70?"blue":"red");
+  winV.textContent=pct(s.wr);winS.textContent=`${s.w} wins / ${s.l} losses`;pfV.textContent=s.pf===Infinity?"∞":s.pf.toFixed(2);avgRV.textContent=s.avgR.toFixed(2)+"R";ddV.textContent="-"+pct(s.maxdd);expectancyV.textContent=(s.expectancy>=0?"+":"")+money(s.expectancy);expectancyV.className="value "+(s.expectancy>=0?"green":"red");disciplineV.textContent=Math.round(s.discipline);disciplineV.className="value "+(s.discipline>=85?"green":s.discipline>=70?"blue":"red");consistencyV.textContent=Math.round(s.consistency);consistencyV.className="value "+(s.consistency>=85?"green":s.consistency>=70?"blue":"red");aPlusV.textContent=pct(s.aPlus);
   periodTag.textContent=currentPeriod==="all"?"All time":currentPeriod+" days";
-  drawLine(equityCanvas,s.curve);drawDaily(dailyCanvas,s.ts);renderWeekly(s.ts);renderMonthly();renderStreaks(s.ts);
+  drawLine(equityCanvas,s.curve);drawDaily(dailyCanvas,s.ts);renderWeekly(s.ts);renderMonthly();renderStreaks(s.ts);renderHighlightTrades(s.ts);
   const r=[...s.ts].reverse().slice(0,5);recentTrades.innerHTML=r.length?r.map(t=>tradeRow(t,true)).join(""):`<div class="empty">ยังไม่มี Trade</div>`
 }
 function tradeRow(t,compact=false){
@@ -350,6 +397,17 @@ function renderStreaks(ts){
   streakSummary.innerHTML=`<div class="metric-list"><div class="metric-row"><b>Current</b><span class="pill">${cur}</span><span></span><span></span></div><div class="metric-row"><b>Best win streak</b><span class="pill">${maxW}</span><span></span><span></span></div><div class="metric-row"><b>Worst loss streak</b><span class="pill">${maxL}</span><span></span><span></span></div></div>`;
 }
 
+
+function renderHighlightTrades(ts){
+  if(!ts.length){bestTradeCard.innerHTML=worstTradeCard.innerHTML=favoriteSummary.innerHTML='<div class="empty">ยังไม่มีข้อมูล</div>';return}
+  const best=[...ts].sort((a,b)=>Number(b.pnl||0)-Number(a.pnl||0))[0];
+  const worst=[...ts].sort((a,b)=>Number(a.pnl||0)-Number(b.pnl||0))[0];
+  const fav=ts.filter(t=>t.favorite===true||t.favorite==="true");
+  const mini=t=>`<div><div class="sym">${esc(t.symbol)} · ${esc(t.date)}</div><div class="small muted" style="margin-top:4px">${esc(t.setup||t.session||"")}</div><div class="${Number(t.pnl)>=0?"pos":"neg"}" style="font-size:22px;margin-top:8px">${money(t.pnl)}</div></div>`;
+  bestTradeCard.innerHTML=mini(best);worstTradeCard.innerHTML=mini(worst);
+  favoriteSummary.innerHTML=`<div class="value stars">${fav.length} ★</div><div class="sub">favorite trades saved</div>`;
+}
+
 function renderHistory(){
   const q=searchInput.value.toLowerCase(),side=sideFilter.value,res=resultFilter.value;
   const a=[...allTrades()].reverse().filter(t=>{const hay=[t.symbol,t.setup,t.session,t.tf,t.note,...(t.tags||[])].join(" ").toLowerCase();return(!q||hay.includes(q))&&(!side||t.side===side)&&(!res||(res==="win"?Number(t.pnl)>0:Number(t.pnl)<0))});
@@ -370,7 +428,15 @@ function metricStats(groupFn){
   return Object.entries(g).map(([k,v])=>({k,...v,wr:v.n?v.w/v.n:0,ar:v.rs.length?v.rs.reduce((a,b)=>a+b,0)/v.rs.length:0})).sort((a,b)=>b.n-a.n)
 }
 function metricHtml(a){return a.length?a.map(v=>`<div class="metric-row"><b>${esc(v.k)}</b><span class="pill">${v.n} trades · ${pct(v.wr)} WR</span><span class="pill">${v.ar.toFixed(2)}R</span><span class="${v.p>=0?"pos":"neg"}">${v.p>=0?"+":""}${money(v.p)}</span></div>`).join(""):`<div class="empty">ยังไม่มีข้อมูล</div>`}
-function renderAnalytics(){setupStats.innerHTML=metricHtml(metricStats(t=>t.setup||"Unspecified"));sessionStats.innerHTML=metricHtml(metricStats(t=>t.session||"Other"));directionStats.innerHTML=metricHtml(metricStats(t=>t.side||"Other"));tagStats.innerHTML=metricHtml(metricStats(t=>t.tags||[]))}
+function renderAnalytics(){
+  setupStats.innerHTML=metricHtml(metricStats(t=>t.setup||"Unspecified"));
+  sessionStats.innerHTML=metricHtml(metricStats(t=>t.session||"Other"));
+  directionStats.innerHTML=metricHtml(metricStats(t=>t.side||"Other"));
+  tagStats.innerHTML=metricHtml(metricStats(t=>t.tags||[]));
+  gradeStats.innerHTML=metricHtml(metricStats(t=>t.grade||"Unspecified"));
+  const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  dowStats.innerHTML=metricHtml(metricStats(t=>DAYS[new Date(t.date+"T00:00:00").getDay()]));
+}
 
 function calcRisk(){
   const bal=Number(riskBalance.value||0),rp=Number(riskPct.value||0),e=Number(riskEntry.value),sl=Number(riskStop.value),cs=Number(contractSize.value||0),amt=bal*rp/100;riskAmount.textContent=money(amt);
@@ -437,6 +503,23 @@ function getLessons(){try{return JSON.parse(localStorage.getItem(LESSONKEY))||[]
 function renderLessons(){const a=getLessons();lessonList.innerHTML=a.length?a.map((x,i)=>`<div class="lesson"><b>${esc(x.date)}</b><div class="small muted" style="margin-top:4px">${esc(x.text)}</div><button class="btn" style="margin-top:6px" onclick="deleteLesson(${i})">ลบ</button></div>`).join(""):`<div class="empty">ยังไม่มี Lesson</div>`}
 saveLessonBtn.onclick=()=>{const text=lessonInput.value.trim();if(!text)return;const a=getLessons();a.unshift({date:new Date().toISOString().slice(0,10),text});localStorage.setItem(LESSONKEY,JSON.stringify(a));lessonInput.value="";renderLessons()};
 window.deleteLesson=i=>{const a=getLessons();a.splice(i,1);localStorage.setItem(LESSONKEY,JSON.stringify(a));renderLessons()};
+
+function getPlaybook(){try{return JSON.parse(localStorage.getItem(PLAYBOOKKEY))||[]}catch{return[]}}
+function savePlaybook(){
+  const name=pbName.value.trim();if(!name)return alert("ใส่ชื่อ Setup");
+  const arr=getPlaybook();const item={id:crypto.randomUUID(),name,grade:pbGrade.value,session:pbSession.value,minRR:Number(pbMinRR.value||0),confluence:pbConfluence.value.trim(),rules:pbRules.value.trim(),invalid:pbInvalid.value.trim()};
+  arr.unshift(item);localStorage.setItem(PLAYBOOKKEY,JSON.stringify(arr));pbName.value="";pbConfluence.value="";pbRules.value="";pbInvalid.value="";renderPlaybook();alert("บันทึก Setup แล้ว")
+}
+savePlaybookBtn.onclick=savePlaybook;
+function renderPlaybook(){
+  const arr=getPlaybook();
+  playbookDatalist.innerHTML=arr.map(x=>`<option value="${esc(x.name)}"></option>`).join("");
+  playbookSummary.innerHTML=arr.length?`<div class="value">${arr.length}</div><div class="sub">saved setups · ${arr.filter(x=>x.grade==="A").length} Grade A</div>`:`<div class="empty">ยังไม่มี Setup ใน Playbook</div>`;
+  playbookList.innerHTML=arr.length?arr.map(x=>`<div class="playbook-card"><h3>${esc(x.name)} <span class="tag">Grade ${esc(x.grade)}</span></h3><div class="small muted">${esc(x.session)} · Min RR ${x.minRR||"—"}</div><div class="small" style="margin-top:8px"><b>Confluence:</b> ${esc(x.confluence||"—")}</div><div class="small" style="margin-top:6px"><b>Entry rules:</b> ${esc(x.rules||"—")}</div><div class="small red" style="margin-top:6px"><b>No trade:</b> ${esc(x.invalid||"—")}</div><button class="btn" style="margin-top:9px" onclick="usePlaybook('${x.id}')">Use</button><button class="btn" style="margin-top:9px" onclick="deletePlaybook('${x.id}')">Delete</button></div>`).join(""):`<div class="empty">ยังไม่มี Setup</div>`
+}
+window.usePlaybook=id=>{const x=getPlaybook().find(v=>v.id===id);if(!x)return;openTrade();tradeSetup.value=x.name;tradeGrade.value=x.grade;if(x.session!=="Any")tradeSession.value=x.session;if(x.minRR)tradeR.value=x.minRR};
+window.deletePlaybook=id=>{const a=getPlaybook().filter(x=>x.id!==id);localStorage.setItem(PLAYBOOKKEY,JSON.stringify(a));renderPlaybook()};
+
 function renderGallery(){
   const rows=[...allTrades()].reverse().filter(t=>t.before||t.after);
   galleryGrid.innerHTML=rows.length?rows.map(t=>`<div class="gallery-card"><div class="gallery-pair">${t.before?`<img src="${t.before}" alt="Before">`:`<div></div>`}${t.after?`<img src="${t.after}" alt="After">`:`<div></div>`}</div><div class="gallery-meta"><b>${esc(t.symbol)} · ${esc(t.date)}</b><div class="small muted" style="margin-top:4px">${esc(t.setup||t.session||"")}</div><div class="${Number(t.pnl)>=0?"pos":"neg"}" style="margin-top:6px">${money(t.pnl)}</div></div></div>`).join(""):`<div class="empty">ยังไม่มีภาพ Before / After</div>`
@@ -463,22 +546,22 @@ function handleImg(inp,key,el){let f=inp.files?.[0];if(!f)return;let r=new FileR
 beforeInput.onchange=()=>handleImg(beforeInput,"before",beforePreview);afterInput.onchange=()=>handleImg(afterInput,"after",afterPreview);
 function openTrade(t=null){
   tradeForm.reset();tradeDate.value=new Date().toISOString().slice(0,10);tradeSymbol.value="XAUUSD";tradeId.value=t?.id||"";selectedTags=new Set(t?.tags||[]);selectedMistakes=new Set(t?.mistakes||[]);editImages={before:t?.before||"",after:t?.after||""};
-  if(!t){tradeChecklistScore.value=100;tradeGrade.value="A"}
-  if(t){modalTitle.textContent="Edit Trade";tradeDate.value=t.date;tradeSymbol.value=t.symbol;tradeSide.value=t.side;tradeSession.value=t.session||"Other";tradeSetup.value=t.setup||"";tradeTf.value=t.tf||"M5";tradeGrade.value=t.grade||"A";tradeChecklistScore.value=t.checklistScore??100;tradeEntry.value=t.entry??"";tradeExit.value=t.exit??"";tradeSL.value=t.sl??"";tradeTP.value=t.tp??"";tradeLot.value=t.lot??"";tradeRisk.value=t.risk??"";tradePnl.value=t.pnl??"";tradeR.value=t.r??"";tradeNote.value=t.note||""}else modalTitle.textContent="New Trade";
+  if(!t){tradeChecklistScore.value=100;tradeGrade.value="A";tradeFavorite.value="false";tradeTime.value=""}
+  if(t){modalTitle.textContent="Edit Trade";tradeDate.value=t.date;tradeSymbol.value=t.symbol;tradeSide.value=t.side;tradeSession.value=t.session||"Other";tradeSetup.value=t.setup||"";tradeTf.value=t.tf||"M5";tradeTime.value=t.time||"";tradeGrade.value=t.grade||"A";tradeFavorite.value=String(t.favorite===true||t.favorite==="true");tradeChecklistScore.value=t.checklistScore??100;tradeEntry.value=t.entry??"";tradeExit.value=t.exit??"";tradeSL.value=t.sl??"";tradeTP.value=t.tp??"";tradeLot.value=t.lot??"";tradeRisk.value=t.risk??"";tradePnl.value=t.pnl??"";tradeR.value=t.r??"";tradeNote.value=t.note||""}else modalTitle.textContent="New Trade";
   renderTags();renderMistakes();preview(beforePreview,editImages.before);preview(afterPreview,editImages.after);tradeModal.classList.add("open")
 }
 newTradeBtn.onclick=()=>openTrade();closeModal.onclick=cancelTrade.onclick=()=>tradeModal.classList.remove("open");
 function n(id){let v=$(id).value;return v===""?"":Number(v)}
-tradeForm.onsubmit=e=>{e.preventDefault();let o={id:tradeId.value||crypto.randomUUID(),portfolioId:activeP().id,date:tradeDate.value,symbol:tradeSymbol.value.trim().toUpperCase(),side:tradeSide.value,session:tradeSession.value,setup:tradeSetup.value.trim(),tf:tradeTf.value,grade:tradeGrade.value,checklistScore:n("tradeChecklistScore"),entry:n("tradeEntry"),exit:n("tradeExit"),sl:n("tradeSL"),tp:n("tradeTP"),lot:n("tradeLot"),risk:n("tradeRisk"),pnl:n("tradePnl"),r:n("tradeR"),tags:[...selectedTags],mistakes:[...selectedMistakes],note:tradeNote.value,before:editImages.before,after:editImages.after};let i=state.trades.findIndex(t=>t.id===o.id);i>=0?state.trades[i]=o:state.trades.push(o);tradeModal.classList.remove("open");persist()};
+tradeForm.onsubmit=e=>{e.preventDefault();let o={id:tradeId.value||crypto.randomUUID(),portfolioId:activeP().id,date:tradeDate.value,symbol:tradeSymbol.value.trim().toUpperCase(),side:tradeSide.value,session:tradeSession.value,setup:tradeSetup.value.trim(),tf:tradeTf.value,time:tradeTime.value,grade:tradeGrade.value,favorite:tradeFavorite.value==="true",checklistScore:n("tradeChecklistScore"),entry:n("tradeEntry"),exit:n("tradeExit"),sl:n("tradeSL"),tp:n("tradeTP"),lot:n("tradeLot"),risk:n("tradeRisk"),pnl:n("tradePnl"),r:n("tradeR"),tags:[...selectedTags],mistakes:[...selectedMistakes],note:tradeNote.value,before:editImages.before,after:editImages.after};let i=state.trades.findIndex(t=>t.id===o.id);i>=0?state.trades[i]=o:state.trades.push(o);tradeModal.classList.remove("open");persist()};
 window.editTrade=id=>openTrade(state.trades.find(t=>t.id===id));window.deleteTrade=id=>{if(confirm("ลบ Trade นี้?")){state.trades=state.trades.filter(t=>t.id!==id);persist()}};
 
 exportBtn.onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v4-backup.json";a.click();URL.revokeObjectURL(a.href)};
 
 exportCsvBtn.onclick=()=>{
-  const rows=[["date","symbol","side","session","setup","grade","timeframe","entry","exit","sl","tp","lot","risk_pct","pnl","r","checklist_score","tags","mistakes","note"]];
-  allTrades().forEach(t=>rows.push([t.date,t.symbol,t.side,t.session||"",t.setup||"",t.grade||"",t.tf||"",t.entry??"",t.exit??"",t.sl??"",t.tp??"",t.lot??"",t.risk??"",t.pnl??"",t.r??"",t.checklistScore??100,(t.tags||[]).join("|"),(t.mistakes||[]).join("|"),t.note||""]));
+  const rows=[["date","time","symbol","side","session","setup","grade","favorite","timeframe","entry","exit","sl","tp","lot","risk_pct","pnl","r","checklist_score","tags","mistakes","note"]];
+  allTrades().forEach(t=>rows.push([t.date,t.time||"",t.symbol,t.side,t.session||"",t.setup||"",t.grade||"",t.favorite?1:0,t.tf||"",t.entry??"",t.exit??"",t.sl??"",t.tp??"",t.lot??"",t.risk??"",t.pnl??"",t.r??"",t.checklistScore??100,(t.tags||[]).join("|"),(t.mistakes||[]).join("|"),t.note||""]));
   const csv=rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v6-trades.csv";a.click();URL.revokeObjectURL(a.href)
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="edgelog-v7-trades.csv";a.click();URL.revokeObjectURL(a.href)
 };
 
 importInput.onchange=()=>{let f=importInput.files?.[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.portfolios||!d.trades)throw 0;state=d;persist();alert("Import สำเร็จ")}catch{alert("ไฟล์ไม่ถูกต้อง")}};r.readAsText(f)};
@@ -494,7 +577,7 @@ async function pushCloud(){if(!sb||!sessionUser)return alert("Sign in ก่อ�
 async function pullCloud(){if(!sb||!sessionUser)return alert("Sign in ก่อน");let {data,error}=await sb.from("edgelog_data").select("payload").eq("user_id",sessionUser.id).maybeSingle();if(error)return alert(error.message);if(!data?.payload)return alert("ยังไม่มีข้อมูลบน Cloud");state=data.payload;persist();alert("Pull ลงเครื่องแล้ว")}
 pushCloudBtn.onclick=pushCloud;pullCloudBtn.onclick=pullCloud;cloudBtn.onclick=()=>showPage("settings");
 
-function renderAll(){renderPortfolio();renderDashboard();renderHistory();renderCalendar();renderAnalytics();renderRules();renderReview();renderGallery();renderJournal();renderSettings()}
+function renderAll(){renderPortfolio();renderDashboard();renderHistory();renderCalendar();renderAnalytics();renderRules();renderReview();renderPlaybook();renderGallery();renderJournal();renderSettings()}
 window.addEventListener("resize",()=>{drawLine(equityCanvas,stats().curve);drawDaily(dailyCanvas,stats().ts)});
 calcRisk();calcRR();initSupabase();renderAll();
 </script>

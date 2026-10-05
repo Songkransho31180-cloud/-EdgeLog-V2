@@ -1,21 +1,20 @@
-# EdgeLog V6
+# EdgeLog V7
 
-V6 ต่อจาก V5 และย้ายข้อมูล V5/V4/V3 เดิมให้อัตโนมัติ
+V7 ต่อจาก V6 และย้ายข้อมูล V6/V5/V4/V3 เดิมให้อัตโนมัติ
 
 ## เพิ่มใหม่
-- Mistake Tags: FOMO, Revenge, Overtrade, Early Entry, Moved SL ฯลฯ
-- Rule Violation อัตโนมัติ
-- Consistency Score
-- Minimum RR / Minimum Checklist rules
-- Review Center
-- Most Costly / Most Frequent Mistake
-- Monthly Review + Violation Log
-- Screenshot Gallery (Before / After)
-- Lessons Bank
-- Export CSV มี mistake tags
+- Setup Playbook
+- Grade A/B/C Analytics
+- Day-of-week Analytics
+- A+ Setup Rate
+- Favorite Trades
+- Best / Worst Trade cards
+- Entry Time
+- Playbook ใช้เป็น Setup template
+- CSV export เพิ่ม time/favorite
 - ใช้ข้อมูลเวอร์ชันก่อนต่อได้
 
 ## อัปเดต GitHub
 อัปโหลด `index.html` ไปแทนไฟล์เดิมใน root ของ repo แล้ว Commit to main
 
-> เครื่องมือนี้เน้นการบันทึกและควบคุมความเสี่ยง ไม่ได้เชื่อมส่งคำสั่งซื้อขายจริง
+> Playbook และสถิติเน้นกระบวนการและการทบทวน ไม่ได้ส่งคำสั่งซื้อขายจริง
